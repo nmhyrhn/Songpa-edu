@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>레이아웃과 시맨틱</title>
+  <style>
+    div, span {
+      border: 1px solid red; padding: 5px; margin: 5px;
+    }
+
+    header, main, section, footer {
+      border: 2px solid blue; padding: 5px; margin: 5px;
+    }
+  </style>
+</head>
+
+<body>
+  
+  <h1>영역을 나누는 기본 태크: div와 span</h1>
+
+  <h2>div 태그(블럭 레벨 요소)</h2>
+  <!-- division, 영역을 나눈다는 뜻. 한 '줄'을 통째로 차지 -->
+  <div>첫 번째 div 영역 입니다.</div>
+  <div>두 번째 div 영역 입니다.</div>
+
+  <h2>span 태그(인라인 레벨 요소)</h2>
+  <!-- span, 특정 범위를 지정한다는 뜻. '컨텐츠 크기만큼'의 공간만 차지' -->
+  <span>첫 번째 span 영역 입니다.</span>
+  <span>두 번째 span 영역 입니다.</span>
+
+  <hr>
+
+  <h1>의미를 담아 영역 나누기: 시맨틱 태그</h1>
+  <!-- 시맨틱 태그: 의미를 담은 태그. 웹 페이지의 구조를 명확하게 표현할 수 있다. -->
+  <!-- header: 페이지나 특정 구역의 '머리말'을 의미' -->
+  <header>
+    <h1>My Profile page</h1>
+  </header>
+  <main>
+    <section>
+      <h2>소개</h2>
+      <p>안녕하세요! 예비 개발자 남혜린입니다.</p>
+    </section>
+    <section>
+      <h2>보유 기술</h2>
+      <ul>
+        <li>HTML
+        <li>CSS</li>
+        </li>
+      </ul>
+    </section>
+  </main>
+  <footer>
+    <p>Copyright 2026 Hyerhin Nam.</p>
+  </footer>
+
+</body>
+</html>

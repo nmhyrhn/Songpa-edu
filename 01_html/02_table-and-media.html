@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>표와 미디어</title>
+  <style>
+    table, th, td {
+      border: 1px solid black;
+    }
+    th, td {
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>표(table)로 데이터 정리하기</h1>
+
+  <table>
+    <!-- 전체 표를 감싸는 태그-->
+    <caption>웹 개발 스터디 시간표</caption>
+    <thead>
+      <!-- tr: Table Row, 표의 한 '행'을 의미-->
+      <tr>
+        <!-- th: Table Header, 제목 셀. 자동으로 굵게 표시됨-->
+        <th>시간</th>
+        <th>월요일</th>
+        <th>수요일</th>
+        <th>금요일</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- tbody: Table Body, 표의 본문을 감싸는 태그-->
+      <tr>
+        <td>1교시</td>
+        <td rowspan="2">HTML 기초</td>
+        <td>JavaScript 기초</td>
+        <td>디자인 기초</td>
+      </tr>
+      <tr>
+        <td>2교시</td>
+        <td colspan="2">JavaScript 기초</td>
+      </tr>
+  </table>
+  <hr>
+
+  <h1>미디어로 페이지 꾸미기</h1>
+  <h2>이미지 넣기</h2>
+  <img src="sample/image/city1.PNG" alt="도시 이미지" width="300" height="200">
+
+  <figure>
+    <img src="sample/image/river1.PNG" alt="강 이미지" width="300" height="200">
+    <figcaption>강 이미지</figcaption>
+  </figure>
+
+  <h2>오디오 넣기</h2>
+  <audio src="sample/audio/major.mp3" controls></audio>
+
+  <h2>비디오 넣기</h2>
+  <video src="sample/video/video1.mp4" controls width="400"></video>
+
+</body>
+</html>
