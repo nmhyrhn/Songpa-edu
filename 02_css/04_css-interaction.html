@@ -14,12 +14,24 @@
       color: black;
       text-decoration: none;
       border-radius: 10px;
+
+      transition: all 0.3s ease; /*모든 속성의 변화에 0.3초의 부드러운 전환 효과를 적용*/
     }
 
-    /*hover: 마우스 커서를 올렸을 떄의 상태의 선택*/
+    /*1. hover: 마우스 커서를 올렸을 떄의 상태의 선택*/
     .button:hover {
       background-color: rgb(165, 75, 75);
-      transform: scale(1.1);
+      color: white;
+      /*transform:요소의 모양 변형*/
+      transform: translateY(-5px);
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    /*2. :active: 마우스 버튼을 누를 때의 상태 선택*/
+    .button:active {
+      background-color: rgb(120, 50, 50);
+      transform: translateY(0);
+      box-shadow: none;
     }
   </style>
 
