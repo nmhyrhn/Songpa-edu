@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>node-traversal</title>
+</head>
+<body>
+    <h1>'HTML 가계도' 탐색하기</h1>
+    <pre>
+        우리는 querySelector로 특정 요소를 찾은 뒤, 그 요소를 기준으로
+        가족(부모, 자식, 형제) 요소를 찾아 나갈 수 있습니다.
+
+        이때, 눈에 보이지 않는 '공백'이나 '줄바꿈' (텍스트 노드) 때문에 겪는 혼란을 피하기 위해
+        오직 '요소(Element)'만 찾아주는 프로퍼티들을 사용하는 것이 가장 좋습니다.
+        </pre>
+
+    <ul id="family">
+        <!-- 이 주석과 줄바꿈도 노드입니다! -->
+        <li id="me">나 (기준)</li>
+        <li>나의 첫째 형제</li>
+        <li>나의 둘째 형제</li>
+    </ul>
+
+    <script>
+        const $me = document.getElementById('me');
+
+        //자식 요소 탐색
+        const $family = document.getElementById('family');
+        //눈에 보이지 않는 텍스트 노드(줄바꿈), 주석 까지 모두 포함하여 혼란을 준다.
+        // console.log($family.childNodes);
+
+        //children: 모든 '자식 요소'들을 HTMLCollection으로 변환(텍스트 노드 제외!)
+        const $children = $family.children;
+        console.log($children);
+
+        //firstElementChild:첫 번째 '자식 요소' 반환
+        const $first = $family.firstElementChild;
+        console.log($first);
+        $first.style.color = 'red';
+
+        //lastElementChild: 마지막 '자식 요소' 반환
+        const $last = $family.lastElementChild;
+        console.log($last);
+
+        //부모 요소 탐색하기
+        //parentNode:나의 '부모 요소'를 반환
+        const $parent = $me.parentNode;
+        console.log($parent);
+        $parent.style.border = '1px solid blue';
+
+        //형제 요소 탐색하기
+
+        //nextElementSibling:나의 바로 다음 '형제 요소'를 반환
+        const $next = $me.nextElementSibling;
+        console.log($next);
+        $next.style.color = 'green';
+
+        //previousElementSibling:나의 바로 이전 '형제 요소'를 반환
+        const $prev = $next.previousElementSibling;
+        console.log($prev); //이전 형제 요소가 없기 때문에 '나' 자신을 가리키게 된다.
+    </script>
+</body>
+</html>

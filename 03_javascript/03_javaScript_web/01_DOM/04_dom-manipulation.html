@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DOM 조작과 추가</title>
+</head>
+<body>
+<h1>DOM 요소 조작 및 추가하기 (레고 집 리모델링)</h1>
+
+<hr>
+
+<h3>시나리오 1: 내부 전체를 갈아엎기 (innerHTML)</h3>
+<pre>
+    `innerHTML`은 요소 내부의 모든 것을 지우고, 새로운 HTML 문자열로 완전히 교체하는 가장 간단하고 직관적인 방법입니다.
+    </pre>
+
+<div id="area1">
+    <p>기존에 있던 내용입니다.</p>
+</div>
+
+<script>
+    const $area1 = document.querySelector('#area1');
+
+    //innerHTML로 내부를 완전히 새로운 내용으로 교체
+    $area1.innerHTML = '<ul><li>새로은 리스트 아이템</li></ul>';
+    //단점: 사용자의 입력을 그대로 넣으면 XSS 공격에 취약하다.
+    // $area1.innerHTML = `<img src = 'x' onerror='alert("해킹공격")'>`;
+</script>
+
+<hr>
+
+<h3>시나리오 2: 특정 위치에 살짝 끼워 넣기 (insertAdjacentHTML)</h3>
+<pre>
+    `insertAdjacentHTML`은 기존 내용은 그대로 유지하면서,
+    원하는 위치 4곳 중 하나를 지정해 새로운 HTML 요소를 '끼워 넣는' 효율적인 방법입니다.
+    </pre>
+<!-- beforebegin -->
+<div id="area2" style="border: 2px solid blue; padding: 10px;">
+    <!-- afterbegin -->
+    <p>기존 컨텐츠 </p>
+    <!-- beforeend -->
+</div>
+<!-- afterend -->
+
+<script>
+    const $area2 = document.getElementById('area2');
+
+    //4가지 위치에 HTML 삽입하기
+    $area2.insertAdjacentHTML('beforebegin', '<p>div 시작 전(beforebegin)</p>');
+    $area2.insertAdjacentHTML('afterbegin', '<p>div 내부의 가장 앞(afterbegin)</p>');
+    $area2.insertAdjacentHTML('beforeend', '<p>div 내부의 가장 뒤(beforeend)</p>');
+    $area2.insertAdjacentHTML('afterend', '<p>div 끝난 후(afterend)</p>');
+
+</script>
+
+<hr>
+
+<h3>시나리오 3: 정밀하게 요소 만들고 조립하기 (createElement / appendChild)</h3>
+<pre>
+    가장 안전하고 정석적인 방법입니다. 자바스크립트로 직접 요소(레고 블록)를 만들고,
+    만들어진 요소를 원하는 위치에 '조립(append)'하는 방식입니다.
+    </pre>
+
+<ul id="drink-list">
+    <li>커피</li>
+</ul>
+
+<script>
+    const $drinkList = document.getElementById('drink-list');
+
+    //'li' 요소 노드를 만든다.
+    const $newLi = document.createElement('li')
+
+    //textContent로 안전하게 텍스트를 넣는다.
+    $newLi.textContent = '콜라';
+
+    //appendChild로 ul 리스트의 마지막 자식으로 추가한다.
+    $drinkList.appendChild($newLi);
+
+    const $fragment = document.createDocumentFragment(); //임시 조립 공간
+    ['사이다', '우유', '환타'].forEach(text => {
+        const $li = document.createElement('li');
+        $li.textContent = text;
+        $fragment.appendChild($li);// 임시 공간에 먼저 조립
+    });
+
+    //마지막에 한 번만 실제 DOM에 조립
+    $drinkList.appendChild($fragment);
+
+</script>
+
+<hr>
+
+<h3>기타 정밀 조작: 삽입, 이동, 교체, 삭제</h3>
+<pre>
+    `createElement`로 만든 요소들을 더 정밀하게 제어하는 방법들입니다.
+    </pre>
+<ul id="food-list">
+    <li id="pasta">파스타</li>
+    <li id="pizza">피자</li>
+</ul>
+
+<script>
+    const $foodList = document.getElementById('food-list');
+    const $drinkList2 = document.getElementById('drink-list');
+    const $pasta = document.getElementById('pasta');
+    const $pizza = document.getElementById('pizza');
+
+    //노드 삽입
+    const $newFood = document.createElement('li');
+    $newFood.textContent = '스테이크';
+    //피자 앞에 스테이크 삽입
+    $foodList.insertBefore($newFood, $pizza);
+
+    //노드 이동(appendChild)
+    //이미 존재하는 '피자'를 drink-list로 옮기기
+    $drinkList2.appendChild($pizza);
+
+    //노드 교체 (replaceChild)
+    const $newDrink = document.createElement('li');
+    $newDrink.textContent = '오렌지주스';
+    //drin-list의 첫 요소를 오렌지주스로 교체
+    $drinkList2.replaceChild($newDrink, $drinkList2.firstElementChild);
+
+    //노드 삭제 (removeChild)
+    $foodList.removeChild($pasta);
+</script>
+</body>
+</html>

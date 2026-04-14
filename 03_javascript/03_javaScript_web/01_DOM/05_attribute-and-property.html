@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>어트리뷰트와 프로퍼티</title>
+</head>
+<body>
+<h1>어트리뷰트(Attribute)와 프로퍼티(Property)</h1>
+
+<hr>
+
+<h3>1. 어트리뷰트 기본 조작</h3>
+<pre>
+    HTML 태그에 부여된 속성(attribute)들을 자바스크립트로 읽고, 쓰고, 확인하고, 지우는 방법입니다.
+    <b>getAttribute / setAttribute</b> 메서드를 사용하는 것이 가장 명확합니다.
+    </pre>
+
+<label for="username">유저명</label>
+<input type="text" id="username" value="user01">
+
+<script>
+    const $input = document.getElementById('username');
+
+
+    //읽기: getAttribute('어트리뷰트이름')
+    const inputValue = $input.getAttribute('value');
+    console.log(inputValue);
+
+    //쓰기: setAttribute('어트리뷰트이름', '값')
+    $input.setAttribute('value', 'new-user');
+
+    //확인: hasAttribute('어트리뷰트이름')
+    console.log(`class 어트리뷰트 존재 여부: ${$input.hasAttribute('class')}`);
+
+    //지우기: removerAtrribute('어트리뷰트이름')
+    $input.removeAttribute('value');
+</script>
+
+<hr>
+
+<h3>2. 어트리뷰트 vs 프로퍼티 (초기 설계도 vs 실시간 현황판)</h3>
+<pre>
+    이 둘의 차이를 이해하는 것은 매우 중요합니다!
+    - <b>HTML 어트리뷰트:</b> HTML 문서에 적힌 '초기 설정값'. 마치 건물의 '최초 설계도'와 같습니다.
+    - <b>DOM 프로퍼티:</b> 자바스크립트 객체가 가진 '실시간 최신값'. 마치 건물의 '실시간 현황판'과 같습니다.
+    </pre>
+
+<label for="nickname">닉네임</label>
+<input type="text" id="nickname" value="JSBeginner">
+
+<script>
+    const $nickname = document.getElementById('nickname');
+
+    //사용자가 input에 글자를 입력할 때마다 비교
+    $nickname.oninput = () => {
+        //.value 프로퍼티는 사용자의 입력을 실시간으로 반영
+        console.log('프로퍼티(최신값):', $nickname.value);
+        
+        //.getAtrribute('value')는 HTML에 적힌 초기값을 그대로 유지
+        console.log('어트리뷰트(초기값): ', $nickname.getAttribute('value'));
+    }
+    /*
+    - 어트리뷰트는 초기 상태를 기억하고, 프로퍼티는 현재 상태를 기억한다.
+    - 사용자의 입력 값을 가져올 때는 반드시 '프로퍼티*(.value)'를 사용해야 한다.
+    */
+
+    //(참고)
+    const $checkbox = document.createElement('input');
+    $checkbox.type = 'checkbox';
+    $checkbox.setAttribute('checked', '');
+
+    console.log(`어트리뷰트: $checkbox: ${$checkbox.getAttribute('checked')}`); // '' (빈문자열)
+    console.log(`프로퍼티: ${$checkbox.checked}`); //true (boolean)
+
+</script>
+
+<hr>
+
+<h3>3. 실무 활용: data 어트리뷰트와 dataset 프로퍼티</h3>
+<pre>
+    HTML 표준 속성 외에, 우리만의 데이터를 요소에 '숨겨두고' 싶을 때 사용합니다.
+    <b>data-이름</b> 형태로 HTML에 어트리뷰트를 작성하고,
+    자바스크립트에서는 <b>.dataset.이름</b> 프로퍼티로 쉽게 접근할 수 있습니다.
+    </pre>
+
+<ul class="board-list">
+    <li data-board-id="13" data-category-name="맛집">망원 맛집 추천 부탁드려요!</li>
+    <li data-board-id="15" data-category-name="운동">한강 러닝 크루 구해요!</li>
+    <li data-board-id="18" data-category-name="경제">요즘 재태크 어떻게 하시나요?</li>
+</ul>
+
+<script>
+    const $boardList = document.querySelector('.board-list');
+
+    $boardList.onclick = () => {
+        if(event.target.tagName !== 'LI') return;
+
+        const boardId = event.target.dataset.boardId;
+    }
+</script>
+
+</body>
+</html>
