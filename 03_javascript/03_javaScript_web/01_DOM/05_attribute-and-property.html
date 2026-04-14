@@ -95,7 +95,10 @@
     $boardList.onclick = () => {
         if(event.target.tagName !== 'LI') return;
 
-        const boardId = event.target.dataset.boardId;
+        const boardId = event.target.dataset.boardId; //data-board-id -> boardId(카멜케이스)
+        const categoryName = event.target.dataset.categoryName;
+
+        console.log(`선택한 게시글의 ID는 ${boardId}이고, 카테고리는 ${categoryName}이다.`);
     }
 </script>
 
