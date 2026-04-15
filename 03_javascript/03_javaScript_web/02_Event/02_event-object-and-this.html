@@ -18,7 +18,18 @@
 <h2 id="msg">여기를 클릭하면, 클릭한 곳의 마우스 좌표를 알려드립니다.</h2>
 
 <script>
-   
+    const $msg = document.getElementById('msg');
+
+    //핸들러 함수의 첫 번째 매개변수 (이름은 e, event 등 자유롭게)로 이벤트 객체를 받는다.
+    // document.addEventListener('click', function(e){
+        // console.log(e);
+
+        // $msg.textContent = `마우스 좌표 -> X:${e.clientX}, Y:${e.clientY}`;
+
+        //e.target: '실제로' 이벤트가 시작된 요소
+        //e.currentTarget: 이벤트를 등록한 요소
+        // console.log('실제 클릭 대상(e.target):', e.target);
+    // });
 </script>
 
 <hr>
@@ -32,7 +43,28 @@
 <button id="btn">클릭해보세요</button>
 
 <script>
-    
+    const $btn = document.getElementById('btn');
+
+    //1. 일반 function 함수 사용 시
+    $btn.addEventListener('click', function(e) {
+        console.log('일반 function');
+        //이때의 'this'는 이벤트를 부착한 요소($btn)를 가리킨다.
+        console.log('this:', this);
+        //e.currentTarget 또한 이벤트를 부착한 요소($btn)를 가리킨다.
+        console.log('e.currentTarget:', e.currentTarget);
+        console.log(this === e.currentTarget);
+        this.style.backgroundColor = 'green';
+    });
+
+    //2. 화살표 함수 사용 시
+    $btn.addEventListener('mouseover', (e) => {
+        console.log('화살표 함수');
+        //화살표 함수의 'this'는 바깥 스코프(여기서는 전역 객체 window)를 가리킨다.
+        console.log('this:', this);
+        console.log('e.currentTarget:', e.currentTarget);
+    });
+
+
 </script>
 
 <hr>
@@ -48,7 +80,15 @@
 
 <button id="best-practice-btn">Best Practice</button>
 <script>
-   
+    const $bestBtn = document.getElementById('best-practice-btn');
+
+    $bestBtn.addEventListener('click', (e) => {
+        const btn = e.currentTarget;
+
+        btn.textContent = '클릭되었습니다!';
+        btn.style.backgroundColor = 'skyblue';
+        
+    });
 </script>
 
 </body>

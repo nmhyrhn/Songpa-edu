@@ -41,7 +41,57 @@
 </form>
 
 <script>
-   
+    const $form = document.forms.joinForm; //name 속성 기준
+    const $username = $form.username; //name 속성 기준
+    // const $username = document.querySelector('[name="username"]');
+    const $hobbies = $form.hobby; //name이 같은 요소들은 컬렉션(NodeList)으로 가져옴
+    const $introduce = $form.introduce;
+    const $counter = document.getElementById('char-counter');
+    const $error = document.querySelector('.error');
+
+    //폼 요소 이벤트 활용
+    //focus & blur : 요소에 포커스가 가거나 벗어났을 때
+    $username.addEventListener('focus', (e) => e.target.classList.add('focused'));
+    $username.addEventListener('blur', (e) => e.target.classList.remove('focused'));
+
+    //input: 사용자가 값을 변결할 때마다(실시간!)
+    $introduce.addEventListener('input', (e) => {
+        const currentLength = e.target.value.length;
+        $counter.textContent = currentLength;
+    });
+
+    //폼 제출(submit) 이벤트 제어
+    $form.addEventListener('submit', (e) => {
+        console.log('submit 이벤트 발생');
+
+        //1. 이름 유효성 검사
+        if($username.value.trim().length < 2) {
+            e.preventDefault(); //기본 동작(서버 제출을 막음)
+            $error.textContent = '이름은 2글자 이상 입력해주세요.';
+            return; //함수 종료
+        }
+
+        //2. 관심사 유효성 검사
+        let checkedCount = 0;
+        $hobbies.forEach(hobby => {
+            if(hobby.checked) { //check 상태일 경우 true 반환
+                checkedCount++;
+            }
+        });
+
+        if(checkedCount < 2) {
+            e.preventDefault(); //서버 제출 막는다.
+            $error.textContent = '관심사는 2개 이상 선택해주세요.';
+            return;
+        }
+
+        //모든 유효성 검사를 통과하면, 기본 동작(제출)이 실행됨
+        $error.textContent= '';
+        alert('회원가입 성공! 서버로 제출합니다.');
+
+    });
+
+
 </script>
 </body>
 </html>

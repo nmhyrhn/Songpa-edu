@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1_DOM-문제</title>
+    <style>
+        .area {
+            border: 1px solid black;
+            height: 100px;
+            width: 100px;
+        }
+
+        .first,
+        .second,
+        .third {
+            width : 100px;
+            height : 100px;
+            border : 1px solid black;
+            display : inline-block;
+            margin : 10px;
+        }
+    </style>
+</head>
+<body>
+    <h3> 문제 1. input type="color" 태그로 색상 선택 후 변경 버튼을 클릭하면 하단 div의 색상이 변경되도록 만든다.</h3>
+    <div id="div1" class="area"></div>
+
+    <input type="color" id="selectColor">
+    <button onclick="colorChange();">변경</button>
+
+    <script>
+        function colorChange() {
+            const colorInput = document.getElementById('selectColor');
+            const selectedColor = colorInput.value;
+
+            const div = document.getElementById('div1');
+            div.style.backgroundColor = selectedColor;
+        }
+    </script>
+
+    <h3>문제 2. 버튼 클릭 시 하단 div의 크기가 조절 되도록 만든다.</h3>
+
+    <div id="div2" class="area"></div>
+    <button onclick="halfSize();">50x50</button>
+    <button onclick="defaultSize();">원본(100x100)</button>
+    <button onclick="doubleSize();">200x200</button>
+
+    <script>
+        
+        function halfSize() {
+            const $divInput = document.getElementById('div2');
+            $divInput.style.width = '50px';
+            $divInput.style.height = '50px';
+        }
+        function defaultSize() {
+            const $divInput = document.getElementById('div2');
+            $divInput.style.width = '100px';
+            $divInput.style.height = '100px';
+        }
+        function doubleSize() {
+            const $divInput = document.getElementById('div2');
+            $divInput.style.width = '200px';
+            $divInput.style.height = '200px';
+        }
+    </script>
+
+    <h3>문제 3. 계산기 만들기</h3>
+    <p>
+        첫 번째 값과 두 번째 값을 입력 후 연산자 버튼 클릭 시 동작하는 calculator 함수를 만든다. 
+        함수의 매개변수로 연산자 버튼이 가지고 있는 value 값이 전달된다.
+    </p>
+
+    첫 번째 값 : <input id="num1">
+    두 번째 값 : <input id="num2">
+    <input type="button" value="+" onclick="calculator(this.value);">
+    <input type="button" value="-" onclick="calculator(this.value);">
+    <input type="button" value="x" onclick="calculator(this.value);">
+    <input type="button" value="/" onclick="calculator(this.value);">
+    <input type="button" value="%" onclick="calculator(this.value);">
+    계산 결과 : <span id="calc"></span>
+
+
+    <script>
+        function calculator(value) {
+
+        const num1 = document.getElementById('num1').value;
+        const num2 = document.getElementById('num2').value;
+
+
+        const number1 = Number(num1);
+        const number2 = Number(num2);
+
+
+        let result;
+
+
+        switch (value) {
+            case '+':
+                result = number1 + number2;
+                break;
+            case '-':
+                result = number1 - number2;
+                break;
+            case 'x':
+                result = number1 * number2;
+                break;
+            case '/':
+                if (number2 === 0) {
+                    result = '0으로 나눌 수 없습니다.';
+                } else {
+                    result = number1 / number2;
+                }
+                break;
+            case '%':
+                result = number1 % number2;
+                break;
+            default:
+                result = '잘못된 연산자입니다.';
+        }
+
+        document.getElementById('calc').textContent = result;
+
+        }
+    </script>
+
+    
+    <h3>문제 4-1. 버튼 클릭 시 아래 ul 태그(id:list)의 
+        하위 태그(li)를 모두 삭제하는 deleteList 함수를 만든다.</h3>
+    <button onclick="deleteList();">목록 삭제</button>
+    <ul id="list">
+        <li>의류</li>
+        <li>잡화</li>
+        <li>가전</li>
+        <li>가구</li>
+        <li>식품</li>
+        <li>레저</li>
+        <li>여가</li>
+        <li>도서</li>
+    </ul>
+    <script>
+        function deleteList() {
+            const $list = document.getElementById('list');
+
+            while ($list.firstChild) {
+                $list.removeChild($list.firstChild);
+            }
+
+        }
+    </script>
+    
+        <h3>문제 4-2</h3>
+    <p>
+        버튼 클릭 시 "추가할 목록을 입력하세요"라는 prompt 창을 띄우고
+        입력 받은 값을 내부 텍스트로 하여 동적으로 li 요소 생성 후
+        위 ul 태그(id:list)의 하위 태그로 추가한다.<br>
+        입력하지 않고 취소 했을 시에는 추가하지 않는다.
+    </p>
+    <button onclick="createList();">목록 생성</button>
+    <script>
+        function createList(){
+            let content = prompt('추가할 목록을 입력하세요');
+
+            if (content === null || content.trim() === '') {
+                return;
+            }
+
+            const $list1 = document.getElementById('list');
+            const $li = document.createElement('li');
+            $li.textContent = content;
+            $list1.appendChild($li);
+        }
+    </script>
+
+</body>
+</html>

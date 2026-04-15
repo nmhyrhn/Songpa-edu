@@ -25,7 +25,24 @@
 </ul>
 
 <script>
-   
+    const $parent = document.getElementById('parent');
+    const $child = document.getElementById('child');
+
+    $parent.addEventListener('click', (e) => {
+        alert('부모(ul)가 클릭을 감지했습니다.');
+        console.log('부모 핸들러');
+        
+        //이벤트가 최초로 발생한 지점
+        console.log('e.target: ', e.target);
+        //이벤트 리스터가 부착된 요소
+        console.log('e.currentTarget: ', e.currentTarget);
+        
+    });
+
+    $child.addEventListener('click', (e) => {
+        alert('자식(li)이 클릭되었습니다.');
+    });
+
 </script>
 
 <hr>
@@ -45,7 +62,30 @@
 <button id="add-btn">음료 추가</button>
 
 <script>
-   
+    const $drinkList = document.getElementById('drink-list');
+    const $addBtn = document.getElementById('add-btn');
+
+    function highlight(element) {
+        element.classList.toggle('highlight');
+    }
+
+    //이벤트 위임 적용
+    //각 li가 아닌, 부모인 ul에 이벤트 핸들러 딱 한번 등록
+    $drinkList.addEventListener('click', (e) => {
+        console.log('클릭된 요소(e.target):', e.target);
+
+        if(e.target.matches('li')) {
+            highlight(e.target);
+        }
+    });
+
+    //이벤트 위임의 가장 큰 장점은
+    //나중에 동적으로 추가되는 자식 요소에도 이벶트 핸들러가 자동으로 동작한다.
+    $addBtn.addEventListener('click', () => {
+        const $newLi = document.createElement('li');
+        $newLi.textContent = '사이다';
+        $drinkList.appendChild($newLi);
+    });
 </script>
 </body>
 </html>

@@ -43,7 +43,25 @@
 </form>
 
 <script>
-   
+    const $loginForm = document.getElementById('login-form');
+    const $usernameInput = document.getElementById('username');
+    const $errorMessage = document.getElementById('.error-message');
+
+    $loginForm.addEventListener('submit', (e) => {
+        //'자동 새로고침' 기본 동작 멈추기
+        e.preventDefault();
+        console.log('자동 새로고침을 막았습니다.');
+
+        //유효성 검사 수행
+        if($usernameInput.value.trim() === '') {
+            $errorMessage.textContent = '아이디를 입력해주세요!';
+        } else {
+            $errorMessage.textContent = '';
+            console.log(`서버로 제출할 아이디: ${$usernameInput.value}`);
+            //여기에 실제 서버로 데이터를 보내는 코드 삽입
+            alert('로그인 성공!');
+        }
+    });
 </script>
 
 <hr>
@@ -64,7 +82,22 @@
 </div>
 
 <script>
-    
+    const $modalBg = document.getElementById('modal-background');
+    const $modalContent = document.getElementById('modal-content');
+
+    $modalBg.addEventListener('click', () => {
+        console.log('배경 클리됨 -> 모달을 닫습니다.');
+        $modalBg.style.display = 'none';
+    });
+
+        $modalContent.addEventListener('click', (e) => {
+            //이벤트 버블링을 멈춘다.
+            e.stopPropagation();
+            console.log('흰색 자식 클릭됨 -> 버블링을 막아 부모에게 가지 않는다.');
+
+            //내용 부분 클릭했을 때만 수행할 다른 작업을 여기에 추가할 수 있다.
+            
+        });
 </script>
 </body>
 </html>

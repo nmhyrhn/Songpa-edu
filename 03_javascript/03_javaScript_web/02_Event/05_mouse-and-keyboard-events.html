@@ -22,7 +22,25 @@
 <button id="mouse-btn">여기를 클릭/우클릭 해보세요</button>
 <div id="mouse-area" class="area"></div>
 <script>
-   
+    const $mouseBtn = document.getElementById('mouse-btn');
+    const $mouseArea= document.getElementById('mouse-area');
+
+    //click: 마우스 왼쪽 버튼을 눌렀다 뗐을 때 발생
+    $mouseBtn.addEventListener('click', (e) => {
+        $mouseArea.innerHTML += 'click 이벤트 발생! <br>'
+    });
+
+    //mousedown: 마우스 버튼을 누르는 순간 발행
+    //e.button -> 0: 왼쪽, 1:가운데(휠), 2:오른쪽
+    $mouseBtn.addEventListener('mousedown', (e) => {
+        $mouseArea.innerHTML += `mousedown, buutton=${e.button}<br>`;
+    });
+
+    //contextmenu: 마우스 오른쪽 버튼을 눌렀을 때
+    $mouseBtn.addEventListener('contextmenu', (e) => {
+        e.preventDefault(); //브라우저 기본 메뉴가 뜨는 것을 막는다.
+        $mouseArea.innerHTML += `contextmenu 이벤트 발생! (기본 메뉴 차단)<br>`;
+    });
 </script>
 
 <hr>
@@ -39,7 +57,24 @@
 <input type="text" id="keyboard-input" placeholder="아무 키나 입력하세요">
 <div id="keyboard-area" class="area"></div>
 <script>
-   
+    const $keyboardInput = document.getElementById('keyboard-input');
+    const $keyboardArea = document.getElementById('keyboard-area');
+
+    $keyboardInput.addEventListener('keydown', (e) => {
+        $keyboardArea.innerHTML += `keydown 이벤트 발생!<br>
+        e.key: ${e.key}<br>
+        e.code: ${e.code}`;
+
+        //실무 예: 'Enter'키를 눌렀을 때 검색 실행
+        if(e.key === 'Enter'){
+            console.log('검색을 실행합니다!');
+            //실제 검색 함수를 여기에 호출
+        }
+    });
+
+    $keyboardInput.addEventListener('keyup', (e) => {
+        console.log('keyup 이벤트 발생~');
+    });
 </script>
 </body>
 </html>

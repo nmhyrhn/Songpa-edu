@@ -15,7 +15,16 @@
 <button id="sync-btn">동기 작업 시작 (3초 멈춤!)</button>
 <button id="test-btn">반응 테스트</button>
 <script>
+    function sleep(delay) {
+        const delayUntil = Date.now() + delay;
+        while(Date.now() < delayUntil);
+    };
 
+    document.getElementById('sync-btn').addEventListener('click', () => {
+        console.log('동기 작업 시작...')
+        sleep(3000);//이 함수가 실행되는 3초 동안은 멈춤
+        console.log('동기 작업 완료!');
+    })
 </script>
 
 <hr>
@@ -28,12 +37,27 @@
 
 <h4>setTimeout: "조금 이따가, 딱 한 번만 해줘!"</h4>
 <script>
-   
+
+    const timerId = setTimeout(() => {
+        console.log('3초가 지났습니다.');
+    }, 3000);
+
+    console.log('타이머는 예약 되었습니다.');
+
+    clearTimeout(timerId);//예약을 취소할 수도 있다.
 </script>
 
 <h4>setInterval: "계속 반복해서 해줘!" (feat. clearInterval)</h4>
 <script>
-   
+    let count = 1;
+    const intervalId = setInterval(() => {
+        console.log(`${count}초`);
+
+        if(count++ === 5) {
+            clearInterval(intervalId);
+            console.log('반복이 중지되었습니다.');
+        }
+    }, 1000);
 </script>
 
 <hr>
@@ -49,7 +73,11 @@
     4. 이벤트 루프 (Event Loop): Call Stack이 비었을 때, Task Queue의 작업을 Call Stack으로 옮겨 실행시킵니다.
     </pre>
 <script>
-    
+    console.log('Event Loop: 시작!');
+
+    setTimeout(() => console.log('Event Loop: 0초 타이머 완료!'), 0);
+
+    console.log('Event Loop: 끝!');
 </script>
 </body>
 </html>
