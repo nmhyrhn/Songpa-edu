@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- react -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <!-- babel cdn -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>  
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    /*1. 클래스형 컴포넌트: 앞 글자를 반드시 대문자로 시작(많이 사용 안함)*/
+    class TitleClass extends React.Component{
+      render() {
+        return React.createElement(
+          'h1', 
+          {className: "classComponent"},
+          '클래스형 컴포넌트입니다.'
+        )
+      }
+    }
+
+    /*2. 함수형 컴포넌트*/
+    function OldWayComponent() {
+      return React.createElement(
+        'div',
+        null,
+        React.createElement('h1', {className: 'greeting'}, 'createElement 방식'),
+        React.createElement('p', null, '코드가 길고 복잡하다.')
+      );
+    }
+
+    /*3. JSX 방식*/
+    function NewWayComponent() {
+      return (
+        <div>
+          <h1 className="greeting">JSX 방식</h1>
+          <p>코드가 간단하다</p>
+        </div>
+      );
+    }
+
+    /*컴포넌트란?
+    -UI를 재사용 가능한 '부품'으로 나눈 것이다(예:버튼, 헤더, 프로필 카드 등)
+    -React 엘리먼트를 반환하는 '자바스크립트 함수'이다.
+    -반드시 '대문자'로 시작해야 한다.
+    */
+
+    function App() {
+      return (
+        //여러 요소를 하나로 묶어주기 위한 빈 태그(Fragment)
+        <>
+          <OldWayComponent />
+          <hr />
+          <NewWayComponent />
+        </>
+      )
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+
+  </script>
+
+</body>
+</html>

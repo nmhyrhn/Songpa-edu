@@ -47,9 +47,35 @@
   <button id="add">추가하기</button>
   <button id="remove">삭제하기</button>
   <div id="area1" class="area"></div>
-  <script>
-    // 코드 작성
-  </script>
+<script>
+  const $add = document.getElementById('add');
+  const $remove = document.getElementById('remove');
+  const $area1 = document.getElementById('area1');
+
+  $area1.style.display = 'flex';
+  $area1.style.gap = '5px';
+
+  $add.addEventListener('click', () => {
+    const newDiv = document.createElement('div');
+
+    newDiv.style.width = '100px';
+    newDiv.style.height = '100px';
+    newDiv.style.border = '1px solid black';
+
+    const count = $area1.children.length;
+    newDiv.style.backgroundColor = count % 2 === 0 ? 'red' : 'yellow';
+
+    $area1.appendChild(newDiv);
+  });
+
+  $remove.addEventListener('click', () => {
+    const lastChild = $area1.lastElementChild;
+
+    if (lastChild) {
+      $area1.removeChild(lastChild);
+    }
+  });
+</script>
 
 
   <h3>문제 2</h3>
@@ -62,9 +88,46 @@
   </p>
   <div id="view" class="view">여기를 클릭해서 내용을 입력하세요.</div>
 
-  <script>
-    // 코드 작성
-  </script>
+<script>
+  const $view = document.getElementById('view');
+
+
+$view.addEventListener('click', function handleClick() {
+  const textarea = document.createElement('textarea');
+  textarea.className = 'edit';
+  textarea.value = this.innerHTML;
+
+  this.replaceWith(textarea);
+  textarea.focus();
+
+  let isSaved = false; 
+
+  const saveContent = () => {
+    if (isSaved) return; 
+    isSaved = true;
+
+    const newDiv = document.createElement('div');
+    newDiv.id = 'view';
+    newDiv.className = 'view';
+    newDiv.innerHTML = textarea.value || '여기를 클릭해서 내용을 입력하세요.';
+
+    textarea.replaceWith(newDiv);
+
+    newDiv.addEventListener('click', handleClick);
+  };
+
+  textarea.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && !e.kKey) {
+      e.preventDefault();
+      saveContent();
+    }
+  });
+
+  textarea.addEventListener('blur', saveContent);
+});
+
+
+</script>
 
 </body>
 </html>
