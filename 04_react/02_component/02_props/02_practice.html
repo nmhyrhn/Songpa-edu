@@ -18,6 +18,15 @@
 
   <script type="text/babel">
 
+    const customStyle = {
+      backgroundColor: 'cornflowerblue',
+      color: 'white',
+      padding: '10px',
+      border: '1px solid black',
+      margin: '10px',
+      borderRadius: '5px'
+    };
+
     const user1 = {
       name: '다람쥐',
       age: 5,
@@ -37,37 +46,52 @@
       email: 'example3@gmail.com'
     }
 
-    function NameCard() {
+    function NameCard({name}) {
       return (
-        //코드 작성
+        <div className="card">
+          <h3>이름: {name}</h3>
+        </div>
       );
     }
-    function AgeCard() {
+    function AgeCard({age}) {
       return (
-        //코드 작성
+        <div className="card">
+          <h3>나이: {age}</h3>
+        </div>
       );
     }
-    function PhoneCard() {
+    function PhoneCard({phone}) {
       return (
-        //코드 작성
+        <div className="card">
+          <h3>연락처: {phone}</h3>
+        </div>
       );
     }
-    function EmailCard() {
+    function EmailCard({email}) {
       return (
-        //코드 작성
+        <div className="card">
+          <h3>이메일: {email}</h3>
+        </div>
       );
     }
 
-    function UserInfo() {
+    function UserInfo({user}) {
       return (
-        //코드작성 4가지 카드가 들어가야 함
+        <div className="user-info" style={customStyle}>
+        <NameCard name={user.name} />
+        <AgeCard age={user.age} />
+        <PhoneCard phone={user.phone} />
+        <EmailCard email={user.email} />
+        </div>
       );
     }
 
     function App() {
       return (
         <>
-
+          <UserInfo user={user1}/>
+          <UserInfo user={user2}/>
+          <UserInfo user={user3}/>
         </>
       )
     }
