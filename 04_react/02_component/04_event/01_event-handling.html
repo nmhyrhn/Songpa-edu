@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+    <!-- react -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <!-- babel cdn -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>  
+
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+
+    const {useState} = React;
+
+    function SignupFormBasic() {
+
+      const [username, setUsername] = useState('');
+      const [email, setEmail] = useState('');
+
+      const handleSignup = () => {
+        alert(`아이디: ${username} 이메일: ${email} 회원가입 완료!`);
+        setUsername('');
+        setEmail('');
+      }
+
+      return (
+        <div>
+          <h2>기본적인 이벤트 처리</h2>
+          <input 
+          type="text"
+          placeholder='아이디'
+          value={username}
+          onChange={e => setUsername(e.target.value)}
+          />
+
+          <input 
+          type="email"
+          placeholder='이메일'
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+          />
+          <button onClick={handleSignup}>가입하기</button>
+        </div>
+      );
+    }
+
+    function SignupFormAdvanced() {
+      //관련된 상태들을 하나의 객체로 묶어서 관리
+      const [form, setForm] = useState({
+        username: '',
+        email: ''
+      });
+
+      const handleChange = (e) => {
+        //e.target에서 name과 value를 미리 추출
+        const {name, value} = e.target; // 객체구조분해할당
+
+        setForm({
+          ...form, //기존 객체 복사
+          [name]: value //변경이 일어난 input의 name으 key로 삼아 새로운 value로 덮어씀
+        })
+      }
+
+      const handleSignup = () => {
+        alert(`아이디: ${username} 이메일: ${email} 회원가입 완료!`);
+        setForm({username:'', email:''});
+      }
+
+      const {username, email} = form;
+
+      return (
+        <div>
+          <h2>효율적인 이벤트 처리</h2>
+          <input 
+          type="text"
+          name="username"
+          placeholder='아이디' //state 객체의 key와 동일한 이름
+          value={username}
+          onChange={handleChange}
+          />
+
+          <input 
+          type="email"
+          name="email"
+          placeholder='이메일'
+          value={email}
+          onChange={handleChange}
+          />
+          <button onClick={handleSignup}>가입하기</button>
+        </div>
+      )
+    }
+
+    function CustomButton({event, children}){
+      return (
+        <button 
+        onClick={event}
+        style={{backgroundColor:'black', color:'white', border:'none', padding:'10px'}}>
+          {children}
+        </button>
+      )
+    }
+
+    function App() {
+      const showWelcomeMessage = () => {
+        alert('우리 사이트에 오신 것을 환영합니다.')
+      }
+
+      return(
+        <>
+          <SignupFormBasic/>
+          <hr/>
+          <SignupFormAdvanced/>
+          <div>
+            <h2>Props로 이벤트 함수 전달하기</h2>
+            <CustomButton event={showWelcomeMessage}>
+              환영 메시지 보기
+            </CustomButton>
+          </div>
+        </>
+      )
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+    
+  </script>
+
+</body>
+</html>

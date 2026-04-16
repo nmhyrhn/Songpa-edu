@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+    <!-- react -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <!-- babel cdn -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>  
+
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+
+    console.log(React);
+
+    const {useState} = React;
+
+    function MessageManager() {
+      //[상태 값, 상태 변경 함수] = useState(초기값);
+      //애는 배열구조분해할당 임
+      const [message, setMessage] = useState('초기 상태 메시지입니다.');
+      const [textColor, setTextColor] = useState('black');
+
+      console.log('MessageManager 컴포넌트가 렌더링 되었습니다.')
+
+      const handleEnter = () => {
+        setMessage('안녕하세요! 환영합니다.');
+        setTextColor('blue');
+      }
+
+      const handleLeave = () => {
+        setMessage('안녕히 가세요! 다음에 또 만나요.');
+        setTextColor('red');
+      }
+
+      return (
+        <div>
+          <h1>useState</h1>
+          <h2 style={{color:textColor}}>{message}</h2>
+
+          <button onClick={handleEnter}>입장</button>
+          <button onClick={handleLeave}>퇴장</button>
+        </div>
+      )
+    }
+
+    function Counter() {
+      const [number, setNumber] = useState(0);
+
+      const increaseByTwo = () => {
+        setNumber((preveNumber) => preveNumber + 1);
+        setNumber((preveNumber) => preveNumber + 1);
+      }
+
+      return (
+        <div>
+          <h1>카운터</h1>  
+          <h2>현재 숫자: {number}</h2>
+          <button onClick={()=> setNumber(number+1)}>+1</button> 
+          <button onClick={()=> {
+            setNumber(number+1)
+            setNumber(number+1) //두번 호출이 되어도 2 증가하지는 않는다.
+          }}>+2(동작안함)</button>
+          <button onClick={()=> setNumber(number-1)}>-1</button>
+          <button onClick={increaseByTwo}>+2</button>
+        </div>
+      );
+    }
+
+    function App() {
+      return (
+        <>
+          <MessageManager/>
+          <hr/>
+          <Counter/>
+        </>
+      );
+    }
+
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+    
+  </script>
+
+</body>
+</html>
