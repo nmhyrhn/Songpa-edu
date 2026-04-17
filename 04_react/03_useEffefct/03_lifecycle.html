@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+    <!-- react -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <!-- babel cdn -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>  
+
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+
+    const {useState, useEffect} = React;
+
+    function Counter() {
+
+      const [count, setcount] = useState(0);
+      const [otherCount, setOtherCount] = useState(0);
+
+      //useEffect는 첫 마운트 직후에 무조건 한번 실행 된다.
+
+      //1. 의존성 배열 생략 : 매 렌더링마다 실행
+      useEffect(()=>{
+        //렌더링 '완료된 후' 실행된다
+        console.log('렌더링될 때마다')
+        document.title = `넌 ${count}번 클릭했어`;
+      });
+
+      //2. 빈 의존성 배열[] : Mount(첫 렌더링) 시에만 실행
+      //주로 초기 데이터 로딩(API호출) 등에 사용
+      useEffect(()=> {
+        console.log('컴포넌트가 처음 화면에 나타남(Mount)');
+      }, []);
+
+      //3. 의존성 배열에 특정 값 지정[count] : 해당 값이 변경될 때만 실행
+      useEffect(()=> {
+        console.log(`count 값이 ${count}로 변경되어, useEffect가 실행`);
+      }, [count])
+
+      console.log('Counter 컴포넌트 렌더링');
+
+
+      return (
+        <div>
+          <h2>단순 카운터</h2>
+          <p>{count}번 클릭 했습니다.</p>
+          <button onClick={()=>setcount(count+1)}>클릭</button>
+
+          <p>Oher Count: {otherCount}</p>
+          <button onClick={()=> setOtherCount(otherCount+1)}>클릭</button>
+
+        </div>
+      )
+    }
+
+    function Timer() {
+
+      useEffect(()=> {
+        console.log('타이머가 시작되었습니다(Mount)');
+
+        const timerId = setInterval(() => {
+          console.log('...1초 경과');
+        },1000);
+
+        //Cleanup 함수: useEffect가 반환하는 함수이다
+        //컴포넌트가 화면에서 사라지기 직전(Unmount)에 호출된다.
+        return () => {
+          console.log('타이머를 정리합니다(Unmount');
+          clearInterval(timerId); //생성했던 타이머 제거
+        }
+
+      }, []);
+
+      return (
+        <h3>타이머가 동작 중입니다. (콘솔 확인)</h3>
+      );
+
+    }
+
+    function App() {
+      const [showTimer, setShowTimer] = useState(true);
+
+      return (
+        <>
+          <Counter/>
+          <hr/>
+          <button onClick={()=> setShowTimer(!showTimer)}>타이머 보이기/숨기기</button>
+          {showTimer && <Timer/>}
+        </>
+      )
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+    
+  </script>
+
+</body>
+</html>

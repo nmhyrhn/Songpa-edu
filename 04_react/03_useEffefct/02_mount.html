@@ -18,9 +18,28 @@
 
   <script type="text/babel">
 
-    
+    const {useState, useEffect} = React;
 
-    ReactDOM.createRoot(document.getElementById('root')).render();
+    function TimePrinter() {
+
+      const [time, setTime] = useState(new Date().toLocaleTimeString());
+
+      console.log('렌더링...')
+
+      useEffect(
+        () => {console.log('useEffect 동작')}, //수행할 동작 - 콜백 함수
+        [] //의존성 배열을 빈 배열로 설정하면 업데이트 시점에는 동작하지 않는다.
+      )
+
+      return (
+        <>
+          <button onClick={() => setTime(new Date().toLocaleTimeString())}>현재 시간 확인하기</button>
+          <h1>{time}</h1>
+        </>
+      )
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<TimePrinter/>);
     
   </script>
 
