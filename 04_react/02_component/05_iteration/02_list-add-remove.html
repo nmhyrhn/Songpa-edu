@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+    <!-- react -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <!-- babel cdn -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>  
+
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+
+    const {useState} = React;
+
+    
+    function NameList() {
+
+
+      //전역 선언이 아니라 컴포넌트 안에서 선언해야 함
+      const [inputValue, setInputValue] = useState('');
+      const [names, setNames] = useState([{id: 1, text: '판다'}]);
+      const [nextId, setNextId] = useState(2);
+
+      const handleChange = (e) => setInputValue(e.target.value);
+
+      const handleAdd = () => {
+        if(inputValue.trim() === '') return;
+        const newName = {id: nextId, text: inputValue};
+
+        setNames([...names, newName]);
+        setNextId(nextId+1);
+        setInputValue('');
+      }
+
+      const handleRemove = (idToRemove) => {
+        /**
+         * filter: 기존 배열에서 callback 함수를 각 요소마다 실행하고, 
+         * true를 반환하는 요소들로만 새로운 배열을 반환
+        */
+
+        //id로 넘어온 값과 일치하지 않는 객체만 다시 배열로 반환
+        const uppdateNames = names.filter(name => name.id !== idToRemove);
+
+        setNames(uppdateNames);
+
+      };
+
+      return(
+        <>
+          <input type="text" value={inputValue} onChange={handleChange} placeholder="이름을 입력하세요"/>
+          <button onClick={handleAdd}>추가</button>
+
+        <ul>
+          {names.map(name => (
+            <li key={name.id}>
+              {name.text}
+              <button onClick={() => handleRemove(name.id)}>삭제</button>
+            </li>
+          ))}
+        </ul>
+
+        </>
+      )
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<NameList/>);
+    
+  </script>
+
+</body>
+</html>
