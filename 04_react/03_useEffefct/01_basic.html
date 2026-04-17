@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+    <!-- react -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <!-- babel cdn -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>  
+
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+
+    /*함수형 컴포넌트에서 렌더링 된 이후 시점에 수행 할 내용이 필요한 경우
+    사용할 수 있는 기능을 hooks로 제공해 주고 있고 useEffect이다.*/
+
+    const {useEffect} = React;
+
+    function MessagePrinter() {
+      console.log('렌더링');
+
+      useEffect(() => {console.log('렌더링 이후 동작...');
+        
+      })
+
+      return (
+        <h1>{console.log('렌더링 시 출력')}</h1>
+      );
+
+      //return문 아래에 있어 동작하지 않음
+      //console.log('렌더링 이후 동작...')
+
+      console.log('렌더링 이후 동작...')
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<MessagePrinter/>);
+    
+  </script>
+
+</body>
+</html>
