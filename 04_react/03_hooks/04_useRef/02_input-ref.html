@@ -18,14 +18,36 @@
 
   <script type="text/babel">
 
-    const{useState, useEffect, useCallback} = React;
+    const{useState, useEffect, useRef} = React;
     
     
 
     function App() {
+
+      const [form, setForm] = useState({
+        username: '',
+        password: ''
+      });
+
+      const onChangeHandler = (e) => {
+        setForm({
+          ...form,
+          [e.target.name]: e.target.value
+        })
+      };
+      
       return (
         <>
-
+          <input 
+            type="text" 
+            name="username" 
+            value={form.username} 
+            onChange={onChangeHandler}/>
+          <input 
+            type="password" 
+            name="password" 
+            value={form.password} 
+            onChange={onChangeHandler}/>
         </>
       )
     }
