@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>콘솔 확인!</h1>
+
+    <script>
+
+        /*
+        - Promise
+        비동기 작업이 미래의 언젠가 끝날 텐데, 
+        작업이 끝나면 성공(resolve)했는지 실패(reject)했는지 꼭 알려줄게!
+        라고 약속하는 '약속 증서' 객체를 먼저 반환하는 개념이다.
+        */
+
+        function increase(number) {
+            const promise = new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    const result = number + 10;
+
+                    if(result > 50) {
+                        // 실패 -> reject 함수 호출하며 에러 전달
+                        const e = new Error('숫자가 너무 큽니다!');
+                        return reject(e);
+                    }
+                    // 성공 -> 계산된 결과와 함께 resolve 처리
+                    resolve(result);
+                }, 1000);
+            });
+            return promise;
+        }
+
+        increase(0)
+            .then(number => {   // increase가 성공하면 그 결과(number)를 받아서 실행
+                console.log(number);
+                return increase(number);
+            })
+            .then(number => {
+                console.log(number);
+                return increase(number);
+            })
+            .then(number => {
+                console.log(number);
+                return increase(number);
+            })
+            .then(number => {
+                console.log(number);
+                return increase(number);
+            })
+            .then(number => { 
+                console.log(number);
+                return increase(number);
+            })
+            .catch(error => {   //.then() 체인 중간에 reject 하면 여기서 잡힘
+                console.error(error);
+            })
+            .finally(() => {    // 성공하든 실패하든 상관없이 무조건 마지막에 실행
+                console.log('모든 작업이 끝났습니다.');
+            })
+
+    </script>
+    
+</body>
+</html>

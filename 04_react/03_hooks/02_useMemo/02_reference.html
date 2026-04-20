@@ -1,61 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-
-    <!-- react -->
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-  <!-- babel cdn -->
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>  
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
-
 <body>
-  <div id="root"></div>
+    <div id="root"></div>
 
-  <script type="text/babel">
+    <script type="text/babel">
 
-    const{useState, useEffect, useMemo} = React;
+        const { useState, useEffect, useMemo } = React;
 
-    function App() {
-      const [isKorea, setIsKorea] = useState(true);
-      const [number, setNumber] = useState(0);
+        function App() {
 
-      console.log('렌더링...');
+            const [isKorea, setIsKorea] = useState(true);
+            const [number, setNumber] = useState(0);
 
-      const location = useMemo(() => {
-        return {country: isKorea ? '한국' : '외국'}
-      },[isKorea]); //isKoea 값이 바뀔 때만 새로운 객체를 만들어 줘
+            console.log('렌더링...');
+
+            const location = useMemo(() => {
+                return { country: isKorea ? '한국' : '외국'}
+            }, [isKorea]); // isKorea 값이 바뀔 때만 새로운 객체를 만들어 줘
+
+            // const location = {
+            // country: isKorea ? '한국' : '외국'
+            // };
+
+            useEffect(() =>{
+                console.log('useEffect 호출됨... location이 변경되었습니다.');
+            }, [location]); // location 객체가 바뀔 때마다 실행
+
+            return (
+                <>
+                    <h2>지금 당신이 있는 위치는?</h2>
+                    <p>국가: {location.country}</p>
+                    <button onClick={() => setIsKorea(!isKorea)}>국가 토글 하기</button>
+                    <hr/>
+                    <h2>좋아하는 숫자를 입력해 주세요</h2>
+                    <input 
+                        type="number"
+                        value={number}
+                        onChange={e => setNumber(e.target.value)}
+                    />
+                </>
+            );
+        }
       
-      // const location = {
-      //   country: isKorea ? '한국' : '외국'
-      // };
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
 
-      useEffect(() => {
-        console.log('useEffect 호출됨...location이 변경되었습니다.')
-      }, [location]); // location 객체가 바뀌 때마다 실행
-
-      return (
-        <>
-          <h2>지금 당신이 있는 위치는?</h2>
-          <p>국가: {location.country}</p>
-          <button onClick={() => setIsKorea(!isKorea)}>국가 토글 하기</button>
-          <hr/>
-          <h2>좋아하는 숫자를 입력해 주세요</h2>
-          <input 
-            type="number" 
-            value={number}
-            onChange={e => setNumber(e.target.value)}/>
-        </>
-      )
-    }
-
-    ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
-    
-  </script>
-
+    </script>
 </body>
 </html>

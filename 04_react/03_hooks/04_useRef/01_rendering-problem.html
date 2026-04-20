@@ -1,75 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-
-    <!-- react -->
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-  <!-- babel cdn -->
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>  
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
-
 <body>
-  <div id="root"></div>
+    <div id="root"></div>
 
-  <script type="text/babel">
+    <script type="text/babel">
 
-    const{useState, useEffect, useRef} = React;
+        const { useState, useRef, useEffect } = React;
+
+        function Counter() {
+
+            console.log('Counter 렌더링');
+
+            // 1. useState (값이 바뀌면 컴포넌트를 '리렌더링')
+            const [count, setCount] = useState(0);
+
+            // 2. 일반 지역 변수
+            let variable = 0;
+
+            // 3. useRef : .current 프로퍼티에 값 저장
+            const countRef = useRef(0);
+
+            const increaseCount = () => {
+                setCount(count + 1);
+            };
+
+            const increaseVariable = () => {
+                variable += 1;
+                console.log('지역 변수 값: ', variable);
+            };
+
+            const increaseCountRef = () => {
+                countRef.current += 1;
+                console.log('Ref 값: ' , countRef.current);
+            };
+
+            return (
+                <>
+                    <h1>State: {count}</h1>
+                    <h2>Variable: {variable}</h2>
+                    <h3>Ref: {countRef.current}</h3>
+                    <button onClick={increaseCount}>State 증가</button>
+                    <button onClick={increaseVariable}>Variable 증가</button>
+                    <button onClick={increaseCountRef}>Ref 증가</button>
+                </>
+            );
+        }
+
+        function App () {
+            return (
+                <>
+                    <Counter />
+                </>
+            )
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
     
-    function Counter() {
-
-      console.log('Counter 렌더링...');
-
-      //1. useState (값이 바뀌면 컴포넌트를 '리렌더링')
-      const [count, setCount] = useState(0);
-
-      //2. 일반 지역 변수
-      let variable = 0;
-
-      //3. useRef
-      const countRef = useRef(0);
-
-      const increaseCount = () => {
-        setCount(count + 1);
-      };
-
-      const increaseVariable = () => {
-        variable += 1;
-        console.log('지역 변수 값: ', variable);
-      };
-
-      const increaseCountRef = () => {
-        countRef.current += 1;
-        console.log('Ref 값: ', countRef.current);
-      };
-
-      return (
-        <>
-          <h1>State: {count}</h1>
-          <h2>Variable: {variable}</h2>
-          <h3>Ref: {countRef.current}</h3>
-          <button onClick={increaseCount}>State 증가</button>
-          <button onClick={increaseVariable}>Variable 증가</button>
-          <button onClick={increaseCountRef}>Ref 증가</button>
-        </>
-      )
-    }
-
-    function App() {
-      return (
-        <>
-          <Counter/>
-        </>
-      )
-    }
-
-    ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
-    
-  </script>
-
 </body>
 </html>
