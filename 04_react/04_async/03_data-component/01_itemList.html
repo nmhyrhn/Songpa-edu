@@ -32,7 +32,7 @@
             const [users, setUsers] = useState([]);  // 서버에서 받아올 유저 목록
             const [loading, setLoading] = useState(true); // 로딩상태
             const [error, setError] = useState(null);   // 에러상태
-          
+        
             useEffect(() => {
                 fetch('https://jsonplaceholder.typicode.com/users')
                     .then(response => {
