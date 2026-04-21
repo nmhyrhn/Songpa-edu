@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+    <!-- react -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <!-- babel cdn -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>  
+  <!-- axios cdn -->
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>  
+
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <script>
+
+    const API_URL = 'https://jsonplaceholder.typicode.com/users/1';
+
+    async function callAPIWithFetch() {
+      try {
+        const response = await fetch(API_URL);
+        // fetch는 if(!response.ok) 꼭 있어야 함 (http 에러를 reject로 잡지 못하기 때문))
+        const data = await response.json(); //.json()으로 직접 파싱
+        console.log(data);
+      } catch(error) {
+        console.error(error);
+      }
+    }
+    //axios 사용
+    async function callAPIWithAxios() {
+      try {
+        const response = await axios.get(API_URL); //axios는 자동으로 JSON 파싱
+        console.log(response.data); //데이터는 response 객체의 data 속성에 있음
+        console.log('axios response', response);
+      } catch(error) {
+        console.error(error);
+      }
+    }
+
+    callAPIWithFetch();
+    callAPIWithAxios();
+  
+  </script>
+
+</body>
+</html>
