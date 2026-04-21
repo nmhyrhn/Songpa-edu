@@ -1,48 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-
-    <!-- react -->
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-  <!-- babel cdn -->
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>  
-    <!-- axios cdn -->
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>  
-  <style>
-    .item{
-      background-color: lightpink;
-      border: 1px solid palevioletred;
-      width: 350px;
-      display: inline-block;
-      margin: 10px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        .item {
+            background-color: bisque;
+            border: 1px dotted black;
+            width: 350px;
+            display: inline-block;
+            margin: 10px;
+        }
+    </style>
 </head>
-
 <body>
-  <div id="root"></div>
+    <div id="root"></div>
 
-  <script type="text/babel">
+    <script type="text/babel">
 
-    const{useState, useEffect} = React;
+        const { useEffect, useState } = React;
+
+        function Title() {
+            return <h1>회원 목록</h1>;
+        }
+
+        function ItemList() {
+            const [users, setUsers] = useState([]);  // 서버에서 받아올 유저 목록
+            const [loading, setLoading] = useState(true); // 로딩상태
+            const [error, setError] = useState(null);   // 에러상태
+          
+            useEffect(() => {
+                fetch('https://jsonplaceholder.typicode.com/users')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('네트워크 응답 문제가 있습니다.');
+                        }
+                        return response.json();
+                    })
+                    .then(responseUsers => setUsers(responseUsers))
+                    .catch(error => {
+                        console.error('데이터를 불러오는 데 실패했습니다.', error);
+                        setError(error);    // 에러 발생 시 에러 상태에 저장  
+                    })
+                    .finally(() => setLoading(false));
+            }, []);
+
+            // Early Return 패턴
+            if (loading) {
+                return <p>로딩 중...</p>;
+            }
+            if (error) {
+                return <p>오류가 발생했습니다: {error.message}</p>;
+            }
+
+            return (
+                <div>
+                    {users.map(user => <Item key={user.id} user={user} />)}    
+                </div>
+            );
+        }
+
+        function Item({user}) {
+            return (
+                <div className="item">
+                    <h4>{user.name}</h4>
+                    userId : {user.id} <br/>
+                    email : {user.eamil} <br/>
+                    phone : {user.phone} <br />
+                    {/* 옵셔널 체이닝 연산자 사용(에러 방지) */}
+                    company name: {user.company?.name}
+                </div>
+            );
+        }
+
+        function App () {
+            return (
+                <>
+                    <Title />
+                    <ItemList />
+                </>
+            )
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
     
-    
-
-    function App() {
-      return (
-        <>
-
-        </>
-      )
-    }
-
-    ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
-    
-  </script>
-
 </body>
 </html>
