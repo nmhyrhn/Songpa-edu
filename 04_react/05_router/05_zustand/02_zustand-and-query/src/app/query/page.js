@@ -8,7 +8,7 @@ export default function QueryPage() {
    * useQuery
    * queryKey:데이터 고유 이름(캐싱으 키)
    * queryFn: 데이터를 가져올 비동기 함수
-   */
+   */pa
   
   const {data, isLoading, isError, error} = useQuery({
     queryKey:["users"],
