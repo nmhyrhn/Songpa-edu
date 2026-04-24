@@ -15,6 +15,7 @@ export default function Home() {
         <Link href="/async">비동기 구현</Link>
         <Link href="/persist">Persist(새로고침 유지)</Link>
         <Link href="/query">유저목록(Query)</Link>
+        <Link href="/crud-test">CRUD</Link>
       </section>
 
       <section>

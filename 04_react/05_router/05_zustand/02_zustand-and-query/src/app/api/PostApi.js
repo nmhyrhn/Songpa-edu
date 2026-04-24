@@ -2,8 +2,8 @@ const BASE_URL = "http://localhost:3001/posts";
 
 export const postApi = {
   getPosts: async() =>{
-    const res = await endpointClientChangedSubscribe(BASE_URL);
-    return res.jon();
+    const res = await fetch(BASE_URL);
+    return res.json();
   },
   //새로운 글 등록하기
   //주소는 그대로지만 method를 POST로

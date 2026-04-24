@@ -1,6 +1,35 @@
 {
   "posts": [
-    { "id": "1", "content": "리액트 공부하기", "completed": false },
-    { "id": "2", "content": "json-server 연결하기", "completed": true }
-  ]
+    {
+      "id": "1",
+      "title": "리액트 공부하기",
+      "author": "파안다"
+    },
+    {
+      "id": "2",
+      "title": "json-server 연결하기",
+      "author": "판다"
+    },
+    {
+      "title": "새로운 글1776998504961",
+      "author": "익명",
+      "id": "-2yzBsYeLck"
+    },
+    {
+      "title": "새로운 글1776998506561",
+      "author": "익명",
+      "id": "gzuv4UsNjG4"
+    },
+    {
+      "title": "새로운 글1776998787676",
+      "author": "익명",
+      "id": "Ca4Y5mxBK4k"
+    },
+    {
+      "title": "새로운 글1776998788376",
+      "author": "익명",
+      "id": "Ec0YHBqlKI4"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
