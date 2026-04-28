@@ -29,6 +29,7 @@ public class Application2 {
         System.out.println("hello" + 'a');
 
         /* 논리값의 연산 */
+
         // 모든 연산자 사용 불가
 //        System.out.println(true + false);
 //        System.out.println(true + 1);
@@ -36,5 +37,6 @@ public class Application2 {
 //        System.out.println(true + 'a');
 
         System.out.println(true + "a"); // 유일하게 문자열은 합치기가 가능하다
+
     }
 }
