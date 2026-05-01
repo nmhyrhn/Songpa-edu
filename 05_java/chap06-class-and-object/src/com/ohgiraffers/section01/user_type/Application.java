@@ -1,5 +1,8 @@
 package com.ohgiraffers.section01.user_type;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 public class Application {
     public static void main(String[] args) {
 
@@ -14,6 +17,24 @@ public class Application {
         *
         * 자료형 변수명 = new 클래스명();
         * */
+
+        Member member = new Member();
+
+        member.id = "user01";
+        member.pwd = "pass01";
+        member.age = 27;
+        member.gender = '남';
+        member.hobby = new String[]{"축구", "볼링", "테니스"};
+
+        System.out.println(member.id);
+        System.out.println(member.pwd);
+        System.out.println(member.age);
+        System.out.println(member.gender);
+        System.out.println(Arrays.toString(member.hobby));
+        for(int i=0;i<member.hobby.length;i++){
+            System.out.println(member.hobby[i] + " ");
+        }
+
 
     }
 }
