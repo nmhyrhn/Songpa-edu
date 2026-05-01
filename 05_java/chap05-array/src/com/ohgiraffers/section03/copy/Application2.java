@@ -29,7 +29,23 @@ public class Application2 {
 
         //3. System.arraycopy()
         int[] arrayCopy =  new int[originArr.length];
-        //System.arraycopy(원본, 원본시작위치, 사본, 사본시작위치, 복사할길이)
+        //System.arraycopy(원본, 원본시작위치, 사본, 사본시작위치, 복사할길이);
+        System.arraycopy(originArr, 0, arrayCopy, 0, originArr.length);
+        print("arrayCopy", arrayCopy);
+
+        //4. clone() //크기조절불가
+        int[] copyClone = originArr.clone();
+        print("copyClone", copyClone);
+
+        copyClone[0] = 99;
+        print("originArr", originArr);
+        print("copyClone", copyClone);
+
+        /*
+        * clone()은 깊은 복사인가요?
+        * 기본형 배열에서는 깊은 복사처럼 작동하지만, 참조형에서는 얕은 복사이다.
+        * */
+
     }
 
     public static void print(String name, int[] arr) {
