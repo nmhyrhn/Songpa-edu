@@ -26,7 +26,7 @@ public class Children {
     private int age;
 
     /*
-    * [Getter와 Setter 메소드
+    * [Getter와 Setter 메소드]
     *
     * Getter(접근자): 내부 필드의 값을 읽어서 전달하는 역할을 하는 메소드 (읽기 전용)
     * Setter(변경자): 외부에서 전달된 값을 받아, 내부 필드의 값을 설정 또는 변경 하는 역할을 하는 메소드
