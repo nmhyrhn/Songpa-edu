@@ -15,11 +15,18 @@ public class Application2 {
 
             fout.write(97); //아스키코드 97 -> a
 
-        } catch (
-                FileNotFoundException e) {
-            throw new RuntimeException(e);
+            //10: 개행문자(엔터)
+            byte[] bar = new byte[] {10, 98, 99, 100, 101, 102};
+
+            //배열 일부만 쓰기
+            //write(byte[]), offset, length);
+
+            fout.write(bar);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         //try 블록 끝 -> 자동으로 fout.close()호출됨
 
