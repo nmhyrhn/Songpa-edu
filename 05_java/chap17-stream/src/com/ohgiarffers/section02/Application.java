@@ -78,7 +78,7 @@ public class Application {
         coursesByCategory.forEach((category, courseList) -> {
             System.out.println("[" + category + "]");
             courseList.forEach(c-> System.out.println(" - " + c.getTitle()));
-                    
+
         });
 
 
