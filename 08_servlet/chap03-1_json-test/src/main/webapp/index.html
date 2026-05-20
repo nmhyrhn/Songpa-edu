@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>React Servlet API Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 720px;
+            margin: 40px auto;
+            line-height: 1.6;
+        }
+
+        form {
+            display: flex;
+            gap: 8px;
+            margin: 24px 0;
+        }
+
+        input {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 14px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        code {
+            background: #f3f3f3;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+<h1>Servlet Memo API Test</h1>
+<p>이 페이지는 같은 Tomcat 서버에서 <code>/api/memos</code> Servlet API를 호출합니다.</p>
+
+<form id="memo-form">
+    <input id="memo-content" type="text" placeholder="메모 내용을 입력하세요">
+    <button type="submit">등록</button>
+</form>
+
+<button id="reload-button" type="button">목록 다시 불러오기</button>
+
+<ul id="memo-list"></ul>
+
+<script>
+    const form = document.querySelector('#memo-form');
+    const input = document.querySelector('#memo-content');
+    const reloadButton = document.querySelector('#reload-button');
+    const memoList = document.querySelector('#memo-list');
+
+    // 목록 조회
+    async function fetchMemos() {
+        const response = await fetch('/api/memos');
+        const memos = await response.json();
+
+        memoList.innerHTML = '';
+        memos.forEach((memo) => {
+            const li = document.createElement('li');
+            li.textContent = `${memo.id}. ${memo.content}`;
+            memoList.appendChild(li);
+        });
+    }
+
+    // 메모 등록
+    async function createMemo(content) {
+        const response = await fetch('/api/memos', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ content })
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            alert(error.message);
+            return;
+        }
+
+        input.value = '';
+        await fetchMemos();
+    }
+
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault(); // 폼 제출시 페이지가 새로고침 되는 기본 동작을 막는다
+
+        const content = input.value.trim();
+        if (!content) {
+            alert('메모 내용을 입력하세요.');
+            return;
+        }
+
+        await createMemo(content);
+    });
+
+    reloadButton.addEventListener('click', fetchMemos);
+
+    fetchMemos();   // 페이지가 처음 열렸을 때 목록을 불러오기 위함
+</script>
+</body>
+</html>
