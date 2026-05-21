@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Servlet JDBC Memo API Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 760px;
+            margin: 40px auto;
+            line-height: 1.6;
+        }
+
+        form {
+            display: flex;
+            gap: 8px;
+            margin: 24px 0;
+        }
+
+        input {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 14px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin: 8px 0;
+            padding: 8px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        small {
+            color: #666;
+            margin-left: 6px;
+        }
+
+        code {
+            background: #f3f3f3;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+<h1>Servlet JDBC Memo API Test</h1>
+<p>이 페이지는 같은 Tomcat 서버에서 <code>/api/memos</code> Servlet API를 호출하고, Servlet은 JDBC로 MySQL DB를 조회합니다.</p>
+
+<form id="memo-form">
+    <input id="memo-content" type="text" placeholder="DB에 저장할 메모 내용을 입력하세요">
+    <button type="submit">등록</button>
+</form>
+
+<button id="reload-button" type="button">목록 다시 불러오기</button>
+
+<ul id="memo-list"></ul>
+
+<script>
+    const form = document.querySelector('#memo-form');
+    const input = document.querySelector('#memo-content');
+    const reloadButton = document.querySelector('#reload-button');
+    const memoList = document.querySelector('#memo-list');
+
+    async function fetchMemos() {
+        const response = await fetch('/api/memos');
+        const memos = await response.json();
+
+        memoList.innerHTML = '';
+        memos.forEach((memo) => {
+            const li = document.createElement('li');
+            const text = document.createElement('span');
+
+            const small = document.createElement('small');
+            text.textContent = `${memo.id}. ${memo.content} `;
+            small.textContent = memo.createdAt;
+            text.appendChild(small);
+
+            li.appendChild(text);
+            memoList.appendChild(li);
+        });
+    }
+
+    async function createMemo(content) {
+        const response = await fetch('/api/memos', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ content })
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            alert(error.message);
+            return;
+        }
+
+        input.value = '';
+        await fetchMemos();
+    }
+
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const content = input.value.trim();
+        if (!content) {
+            alert('메모 내용을 입력하세요.');
+            return;
+        }
+
+        await createMemo(content);
+    });
+
+    reloadButton.addEventListener('click', fetchMemos);
+
+    fetchMemos();
+</script>
+</body>
+</html>
