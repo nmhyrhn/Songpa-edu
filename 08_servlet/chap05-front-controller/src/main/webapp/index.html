@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>API Front Controller Test</title>
+</head>
+<body>
+<h1>API Front Controller Test</h1>
+<p>이 페이지는 <code>/api/*</code> 공통 진입점으로 들어오는 JSON API 요청을 테스트합니다.</p>
+
+<form id="memo-form">
+    <input id="memo-content" type="text" placeholder="메모 내용을 입력하세요">
+    <button type="submit">등록</button>
+</form>
+
+<ul id="memo-list"></ul>
+
+<script>
+    const form = document.querySelector('#memo-form');
+    const input = document.querySelector('#memo-content');
+    const list = document.querySelector('#memo-list');
+
+    async function fetchMemos() {
+        const response = await fetch('/api/memos');
+        const memos = await response.json();
+
+        list.innerHTML = '';
+        memos.forEach((memo) => {
+            const li = document.createElement('li');
+            const text = document.createElement('span');
+            const button = document.createElement('button');
+
+            text.textContent = `${memo.id}. ${memo.content} `;
+            button.textContent = '삭제';
+            button.addEventListener('click', () => deleteMemo(memo.id));
+
+            li.appendChild(text);
+            li.appendChild(button);
+            list.appendChild(li);
+        });
+    }
+
+    async function createMemo(content) {
+        await fetch('/api/memos', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ content })
+        });
+
+        input.value = '';
+        await fetchMemos();
+    }
+
+    async function deleteMemo(id) {
+        await fetch('/api/memos/delete', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id })
+        });
+
+        await fetchMemos();
+    }
+
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const content = input.value.trim();
+        if (!content) {
+            return;
+        }
+
+        await createMemo(content);
+    });
+
+    fetchMemos();
+</script>
+</body>
+</html>
