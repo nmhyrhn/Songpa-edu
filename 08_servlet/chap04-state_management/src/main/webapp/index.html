@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Cookie Session Auth Test</title>
+</head>
+<body>
+<h1>Cookie / Session / Login API Test</h1>
+
+<section>
+    <h2>기초 예제</h2>
+    <p><a href="/cookie">쿠키 생성 확인</a></p>
+    <p><a href="/session">세션 생성 확인</a></p>
+</section>
+
+<section>
+    <h2>React/Next 로그인 메뉴와 연결되는 JSON API 예제</h2>
+    <button id="login-button">로그인 API 호출</button>
+    <button id="me-button">현재 로그인 사용자 확인</button>
+    <button id="logout-button">로그아웃 API 호출</button>
+    <pre id="result"></pre>
+</section>
+
+<script>
+    const result = document.querySelector('#result');
+
+    function print(data) {
+        result.textContent = typeof data === 'string' ? data : JSON.stringify(data, null, 2);
+    }
+
+    document.querySelector('#login-button').addEventListener('click', async () => {
+        const response = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id: 'user01',
+                password: 'pass01'
+            })
+        });
+
+        print(await response.json());
+    });
+
+    document.querySelector('#me-button').addEventListener('click', async () => {
+        const response = await fetch('/api/auth/me');
+        print(await response.json());
+    });
+
+    document.querySelector('#logout-button').addEventListener('click', async () => {
+        const response = await fetch('/api/auth/logout', {
+            method: 'POST'
+        });
+
+        print(response.status === 204 ? 'logout success: 204 No Content' : await response.text());
+    });
+</script>
+</body>
+</html>
