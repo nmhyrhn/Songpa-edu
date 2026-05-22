@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/05_java/Practice/Practice.iml" filepath="$PROJECT_DIR$/05_java/Practice/Practice.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Songpa-edu.iml" filepath="$PROJECT_DIR$/.idea/Songpa-edu.iml" />
+      <module fileurl="file://$PROJECT_DIR$/05_java/chap01-literal-and-variable/chap01-literal-and-variable.iml" filepath="$PROJECT_DIR$/05_java/chap01-literal-and-variable/chap01-literal-and-variable.iml" />
+      <module fileurl="file://$PROJECT_DIR$/05_java/chap02-operator/chap02-operator.iml" filepath="$PROJECT_DIR$/05_java/chap02-operator/chap02-operator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/05_java/chap03-method-and-api/chap03-method-and-api.iml" filepath="$PROJECT_DIR$/05_java/chap03-method-and-api/chap03-method-and-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/05_java/chap04-control-flow/chap04-control-flow.iml" filepath="$PROJECT_DIR$/05_java/chap04-control-flow/chap04-control-flow.iml" />
+      <module fileurl="file://$PROJECT_DIR$/05_java/chap05-array/chap05-array.iml" filepath="$PROJECT_DIR$/05_java/chap05-array/chap05-array.iml" />
+    </modules>
+  </component>
+</project>
