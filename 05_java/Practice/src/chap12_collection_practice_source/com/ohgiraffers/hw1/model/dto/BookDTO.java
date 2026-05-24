@@ -10,19 +10,10 @@ public class BookDTO {
     public BookDTO() {
     }
 
-    public BookDTO(String author, int bNo, int category, String title) {
+    public BookDTO(String author, int category, String title) {
         this.author = author;
-        this.bNo = bNo;
         this.category = category;
         this.title = title;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
     }
 
     public int getbNo() {
@@ -47,6 +38,14 @@ public class BookDTO {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     @Override
