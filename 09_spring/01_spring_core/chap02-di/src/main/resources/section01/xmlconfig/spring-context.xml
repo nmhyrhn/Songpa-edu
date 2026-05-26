@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- bean 태그의 클래스 속성은 인터페이스 타입이 아닌 구현 클래스 타입으로 작성해야 한다. -->
+    <bean id="account" class="com.ohgiraffers.common.PersonalAccount">
+        <constructor-arg index="0" value="20"/>
+        <constructor-arg index="1" value="110-234-567890"/>
+    </bean>
+
+    <!-- 1. 생성자 주입 -->
+         	<bean id="member" class="com.ohgiraffers.common.MemberDTO">
+                <constructor-arg name="sequence" value="1"/>
+                <constructor-arg name="name" value="홍길동"/>
+                <constructor-arg name="personalAccount">
+                    <ref bean="account"/>
+                </constructor-arg>
+            </bean>
+
+    <!-- 2. setter 주입(name속성 반드시 필드명과 동일하게!) -->
+<!--    <bean id="member" class="com.ohgiraffers.common.MemberDTO">-->
+<!--        <property name="sequence" value="1"/>-->
+<!--        <property name="name" value="홍길동"/>-->
+<!--        <property name="personalAccount" ref="account"/>-->
+<!--    </bean>-->
+
+    <!-- 생성 된 다른 bean을 의존성 주입할 경우에는 value 속성이 아닌 ref 속성을 사용하여 bean id를 전달한다. -->
+</beans>

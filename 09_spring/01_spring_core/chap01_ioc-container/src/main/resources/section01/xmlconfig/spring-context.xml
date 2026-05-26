@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!-- MemberDTO bean 등록 컨테이너를 로드할때 파싱해서 객체생성 id 안정해주면 클래스 앞글자 소문자로 바꿔 생성-->
+    <bean id="member" class="com.ohgiraffers.common.MemberDTO">
+        <!-- int 타입의 첫 번째 파라미터에 1 값을 전달 -->
+        <constructor-arg index="0" value="1"/>
+        <!-- String 타입의 id 파라미터에 "user01" 값을 전달 -->
+        <constructor-arg name="id" value="user01"/>
+        <!-- String 타입의 세 번째 파라미터에 "pass01" 값을 전달 -->
+        <constructor-arg index="2"><value>pass01</value></constructor-arg>
+        <!-- String 타입의 name 파라미터에 "홍길동" 값을 전달 -->
+        <constructor-arg name="name"><value>홍길동</value></constructor-arg>
+    </bean>
+</beans>
