@@ -1,0 +1,17 @@
+### 1. 메뉴 목록 조회
+GET http://localhost:8081/api/v1/menus
+
+### 2. 메뉴 등록
+POST http://localhost:8081/api/v1/menus
+
+### 3. 메뉴 수정
+PUT http://localhost:8081/api/v1/menus/3
+
+### 4. 메뉴 삭제
+DELETE http://localhost:8081/api/v1/menus/2
+
+### 5. 주문 목록 조회
+GET http://localhost:8081/api/v1/orders
+
+### 6. 주문 상세 조회
+GET http://localhost:8081/api/v1/orders/7

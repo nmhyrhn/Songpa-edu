@@ -1,0 +1,40 @@
+### 1. @RequestParam - query string 각각 받기
+GET http://localhost:8080/api/v1/menus?categoryCode=2
+
+### 2. @RequestParam - query string 전체 받기
+GET http://localhost:8080/api/v1/menus/search?keyword=coffee&categoryCode=2&page=1
+
+### 3. @PathVariable - URL 경로 값 받기
+GET http://localhost:8080/api/v1/menus/3
+
+### 4. @RequestBody - JSON 요청 본문을 DTO로 받기
+POST http://localhost:8080/api/v1/menus
+Content-Type: application/json
+
+{
+  "name" : "아이스 아메리카노,",
+  "price": 5000,
+  "categoryCode": 2,
+  "orderableStatus": "Y"
+}
+
+### 5. @RequestBody- 요청 본문을 문자열로 그대로 받기
+POST http://localhost:8080/api/v1/menus/raw
+Content-Type: text/plain
+
+plain text
+
+
+### 6. @RequestHeader, @CookieValue
+GET http://localhost:8080/api/v1/menus/request-info
+User-Agent: Intellij HTTP Client
+Cookie: JSESSIONID=test-session-id
+
+### 7. HttpSession - session에 값 저장
+POST http://localhost:8080/api/v1/menus/session?id=user01
+
+### 8. HttpSession - session 값 조회
+GET http://localhost:8080/api/v1/menus/session
+
+### 9. HttpSession - session 값 만료
+DELETE http://localhost:8080/api/v1/menus/session
