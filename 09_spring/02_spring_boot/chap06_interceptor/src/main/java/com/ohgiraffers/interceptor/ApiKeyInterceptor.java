@@ -51,7 +51,7 @@ public class ApiKeyInterceptor implements HandlerInterceptor {
 
         response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
 
-        return false;
+        return false; //요청 흐름 중단, /admin Controller 메서드 실행 X
 
 
     }
