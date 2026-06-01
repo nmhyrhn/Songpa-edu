@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /*
-* 여러 Controller에서 발생한 예외를 한 곳에서 처리
+* @RestControllerAdvice
+* 여러 Controller에서 발생한 예외를 한 곳에서 처리하고 JSON body로 응답
 * */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
