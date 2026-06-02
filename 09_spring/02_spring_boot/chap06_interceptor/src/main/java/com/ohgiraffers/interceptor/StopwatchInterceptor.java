@@ -31,6 +31,7 @@ public class StopwatchInterceptor implements HandlerInterceptor {
         /*같은 요청 객체에 저장해둔 시작 시간을 꺼낸다*/
         Object startTimeAttribute = request.getAttribute(START_TIME);
 
+        //instanceof pattern matching 문법
         // startTimeAttribute가 Long 타입이면 그 값을 Long으로 캐스팅해서 startTime 변수로 바로 사용
         if(startTimeAttribute instanceof Long startTime) {
             long elapsedTime = System.currentTimeMillis() - startTime;
