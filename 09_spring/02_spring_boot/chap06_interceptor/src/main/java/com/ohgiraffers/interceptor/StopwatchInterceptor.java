@@ -25,6 +25,7 @@ public class StopwatchInterceptor implements HandlerInterceptor {
 
     }
 
+    //afterCompletion: 요청 처리가 끝난 뒤 호출됨, 로그, 처리시간 측정, 정리작업에 적합
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable Exception ex) throws Exception {
 
