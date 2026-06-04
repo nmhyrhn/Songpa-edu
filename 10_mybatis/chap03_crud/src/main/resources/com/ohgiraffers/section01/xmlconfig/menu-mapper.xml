@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MenuMapper">
+
+    <!--
+        조회한 컬럼과 DTO 매핑시키기 위한 설정
+        컬럼은 스네이크, 필드는 소문자 카멜 -> 자동매핑 불가
+        <id> = PK 컬럼, <result> = 일반 컬럼
+        -->
+        <resultMap id="menuResultMap" type="com.ohgiraffers.section01.xmlconfig.MenuDTO">
+            <id property="code" column="menu_code"/>
+            <result property="name" column="menu_name"/>
+            <result property="price" column="menu_price"/>
+            <result property="categoryCode" column="category_code"/>
+            <result property="orderableStatus" column="orderable_status"/>
+
+        </resultMap>
+
+
+    <select id="selectAllMenu" resultMap="menuResultMap">
+        SELECT menu_code
+            , menu_name
+            , menu_price
+            , category_code
+            , orderable_status
+        FROM tbl_menu
+        WHERE orderable_status = "Y"
+        ORDER BY menu_code
+    </select>
+
+    <select id="selectMenuByCode" parameterType="_int" resultMap="menuResultMap">
+        SELECT menu_code
+            , menu_name
+            , menu_price
+            , category_code
+            , orderable_status
+        FROM tbl_menu
+        WHERE orderable_status = "Y" AND menu_code = #{code}
+    </select>
+
+    <insert id="insertMenu" parameterType="com.ohgiraffers.section01.xmlconfig.MenuDTO">
+        INSERT INTO tbl_menu (menu_name, menu_price, category_code, orderable_status)
+        VALUES (#{name}, #{price}, #{categoryCode}, 'Y')
+    </insert>
+
+</mapper>
