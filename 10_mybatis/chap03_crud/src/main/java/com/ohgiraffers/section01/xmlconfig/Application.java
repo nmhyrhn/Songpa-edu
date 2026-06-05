@@ -25,6 +25,7 @@ public class Application {
                 case 2: menuController.selectMenuByCode(inputMenuCode());  break;
                 case 3: menuController.registMenu(inputMenu());  break;
                 case 4: menuController.modifyMenu(inputModifyMenu()); break;
+                case 5: menuController.deleteMenu(inputMenuCode()); break;
                 default:
                     System.out.println("잘못된 메뉴를 선택하셨습니다"); break;
             }
