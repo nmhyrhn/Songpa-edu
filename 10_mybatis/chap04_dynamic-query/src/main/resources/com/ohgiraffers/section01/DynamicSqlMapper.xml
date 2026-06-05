@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ohgiraffers.section01.DynamicSqlMapper">
+
+    <!--
+        get >=
+        lte <=
+        ge >
+        lt <
+     -->
+
+    <!-- 공통 매핑 -->
+    <select id="selectMenuByPrice" parameterType="hashmap" resultMap="menuResultMap">
+        SELECT A.MENU_CODE
+        , A.MENU_NAME
+        , A.MENU_PRICE
+        , A.CATEGORY_CODE
+        , A.ORDERABLE_STATUS
+        FROM TBL_MENU A
+        WHERE A.ORDERABLE_STATUS = 'Y'
+        <!-- TODO 1-1. price가 0 이상 10000 이하일 때: AND A.MENU_PRICE < #{ price } -->
+        <if test="price gte 0 and price lte 10000">
+            <![CDATA[
+            AND A.MENU_PRICE < #{ price }
+            ]]>
+        </if>
+
+
+        <!-- TODO 1-2. price가 10000 초과 20000 이하일 때: BETWEEN 10000 AND #{ price } -->
+        <if test="price gt 10000 and price lte 20000">
+            AND A.MENU_PRICE BETWEEN 10000 AND #{ price }
+        </if>
+
+        <!-- TODO 1-3. price가 20000 초과 30000 이하일 때: BETWEEN 20000 AND #{ price } -->
+        <if test="price gt 20000 and price lte 30000">
+            AND A.MENU_PRICE BETWEEN 20000 AND #{ price }
+        </if>
+
+        <!-- TODO 1-4. price가 30000 초과일 때: BETWEEN 30000 AND #{ price } -->
+        <if test="price gt 30000 and price lte 40000">
+            AND A.MENU_PRICE BETWEEN 30000 AND #{ price }
+        </if>
+
+        ORDER BY A.MENU_CODE
+    </select>
+
+    <resultMap id="menuResultMap" type="MenuDTO">
+        <id property="code" column="MENU_CODE"/>
+        <result property="name" column="MENU_NAME"/>
+        <result property="price" column="MENU_PRICE"/>
+        <result property="categoryCode" column="CATEGORY_CODE"/>
+        <result property="orderableStatus" column="ORDERABLE_STATUS"/>
+    </resultMap>
+
+    <select id="searchMenu" parameterType="SearchCriteria" resultMap="menuResultMap">
+        SELECT A.MENU_CODE
+        , A.MENU_NAME
+        , A.MENU_PRICE
+        , A.CATEGORY_CODE
+        , A.ORDERABLE_STATUS
+        FROM TBL_MENU A
+
+        <!-- TODO 2-1. condition이 category일 때만 TBL_CATEGORY B JOIN -->
+        <if test="condition == 'category'">
+            JOIN tbl_category B ON (A.CATEGORY_CODE = B.CATEGORY_CODE)
+        </if>
+
+        WHERE A.ORDERABLE_STATUS = 'Y'
+
+        <!-- TODO 2-2. condition이 name일 때 A.MENU_NAME LIKE 검색 -->
+        <if test="condition == 'name'">
+            AND A.MENU_NAME LIKE CONCAT('%', #{ value }, '%')
+        </if>
+
+
+        <!-- TODO 2-3. condition이 category일 때 B.CATEGORY_NAME 일치 검색 -->
+        <if test="condition == 'category' ">
+            AND B.CATEGORY_NAME = #{ value }
+        </if>
+
+        ORDER BY A.MENU_CODE
+    </select>
+
+    <select id="searchMenuBySupCategory" parameterType="SearchCriteria" resultMap="menuResultMap">
+        SELECT A.MENU_CODE
+        , A.MENU_NAME
+        , A.MENU_PRICE
+        , A.CATEGORY_CODE
+        , A.ORDERABLE_STATUS
+        FROM TBL_MENU A
+        WHERE A.ORDERABLE_STATUS = 'Y'
+
+        <!-- TODO 3. value가 식사/음료/그 외일 때 다른 CATEGORY_CODE 조건 붙이기 -->
+
+        ORDER BY A.MENU_CODE
+    </select>
+
+    <select id="searchMenuByRandomMenuCode" parameterType="hashmap" resultMap="menuResultMap">
+        SELECT A.MENU_CODE
+        , A.MENU_NAME
+        , A.MENU_PRICE
+        , A.CATEGORY_CODE
+        , A.ORDERABLE_STATUS
+        FROM TBL_MENU A
+        WHERE A.MENU_CODE IN
+
+        <!-- TODO 4. randomMenuCodeList를 반복해서 (#{ menuCode }, #{ menuCode }, ...) 형태 만들기 -->
+    </select>
+
+    <select id="searchMenuByCodeOrSearchAll" parameterType="SearchCriteria" resultMap="menuResultMap">
+        SELECT A.MENU_CODE
+        , A.MENU_NAME
+        , A.MENU_PRICE
+        , A.CATEGORY_CODE
+        , A.ORDERABLE_STATUS
+        FROM TBL_MENU A
+
+        <!-- TODO 5. <where>로 ORDERABLE_STATUS 기본 조건과 menuCode 조건 처리 -->
+
+    </select>
+
+    <select id="searchMenuByNameOrCategory" parameterType="hashmap" resultMap="menuResultMap">
+        SELECT A.MENU_CODE
+        , A.MENU_NAME
+        , A.MENU_PRICE
+        , A.CATEGORY_CODE
+        , A.ORDERABLE_STATUS
+        FROM TBL_MENU A
+        WHERE A.ORDERABLE_STATUS = 'Y'
+
+        <!-- TODO 6. nameValue/categoryValue 조건을 trim으로 감싸기 -->
+
+    </select>
+
+    <update id="modifyMenu" parameterType="hashmap">
+        UPDATE TBL_MENU
+
+        <!-- TODO 7. name/categoryCode/orderableStatus 중 입력된 값만 SET 절에 포함하기 -->
+
+        WHERE MENU_CODE = #{ code }
+    </update>
+
+</mapper>
