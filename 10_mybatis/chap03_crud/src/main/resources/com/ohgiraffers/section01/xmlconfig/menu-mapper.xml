@@ -45,4 +45,19 @@
         VALUES (#{name}, #{price}, #{categoryCode}, 'Y')
     </insert>
 
+    <update id="updateMenu" parameterType="com.ohgiraffers.section01.xmlconfig.MenuDTO">
+        UPDATE tbl_menu
+        SET menu_name = #{name},
+            menu_price = #{price},
+            category_code = #{categoryCode}
+        WHERE menu_code = #{code}
+    </update>
+
+    <delete id="deleteMenu" parameterType="_int">
+        DELETE FORM btl_menu
+        WHERE menu_code = #{code}
+
+    </delete>
+
+
 </mapper>

@@ -1,6 +1,6 @@
 package com.ohgiraffers.apipractice.dto;
 
-import com.ohgiraffers.apipractice.dto.status.BookStatus;
+import com.ohgiraffers.apipractice.type.BookStatus;
 import lombok.*;
 
 import java.time.LocalDate;

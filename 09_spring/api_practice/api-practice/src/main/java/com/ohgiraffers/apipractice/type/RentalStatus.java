@@ -1,4 +1,4 @@
-package com.ohgiraffers.apipractice.dto.status;
+package com.ohgiraffers.apipractice.type;
 
 public enum RentalStatus {
 
