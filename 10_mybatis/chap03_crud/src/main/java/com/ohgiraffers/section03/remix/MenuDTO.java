@@ -1,6 +1,5 @@
 package com.ohgiraffers.section03.remix;
 
-//java.io.Serializable -> 메뉴나 파일로 직렬화
 public class MenuDTO implements java.io.Serializable{
 
     private int code;

@@ -2,23 +2,24 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="MenuMapper">
-
+<mapper namespace="com.ohgiraffers.section03.remix.MenuMapper">
     <!--
         [연결 규칙]
         namespace = MenuMapper 인터페이스의 풀 패키지명
         -> MyBatis가 이 XML을 MenuMapper 인터페이스와 연결
-        -->
-    <resultMap id="menuResultMap" type="com.ohgiraffers.section01.xmlconfig.MenuDTO">
+     -->
+    <resultMap id="menuResultMap" type="com.ohgiraffers.section03.remix.MenuDTO">
         <id property="code" column="menu_code"/>
         <result property="name" column="menu_name"/>
         <result property="price" column="menu_price"/>
         <result property="categoryCode" column="category_code"/>
         <result property="orderableStatus" column="orderable_status"/>
-
     </resultMap>
 
-
+    <!--
+        id = MenuMapper 인터페이스의 메서드명과 반드시 일치!
+        resultMap = 위에 선언한 resultMap의 id
+    -->
     <select id="selectAllMenu" resultMap="menuResultMap">
         SELECT menu_code
         , menu_name
@@ -37,15 +38,15 @@
         , category_code
         , orderable_status
         FROM tbl_menu
-        WHERE orderable_status = "Y" AND menu_code = #{code}
+        WHERE orderable_status = "Y" AND menu_code = #{ code }
     </select>
 
-    <insert id="insertMenu" parameterType="com.ohgiraffers.section01.xmlconfig.MenuDTO">
-        INSERT INTO tbl_menu (menu_name, menu_price, category_code, orderable_status)
-        VALUES (#{name}, #{price}, #{categoryCode}, 'Y')
+    <insert id="insertMenu" parameterType="com.ohgiraffers.section03.remix.MenuDTO">
+        INSERT INTO tbl_menu ( menu_name, menu_price, category_code, orderable_status )
+        VALUES ( #{ name }, #{ price } , #{ categoryCode }, 'Y' )
     </insert>
 
-    <update id="updateMenu" parameterType="com.ohgiraffers.section01.xmlconfig.MenuDTO">
+    <update id="updateMenu" parameterType="com.ohgiraffers.section03.remix.MenuDTO">
         UPDATE tbl_menu
         SET menu_name = #{name},
         menu_price = #{price},
@@ -56,8 +57,5 @@
     <delete id="deleteMenu" parameterType="_int">
         DELETE FROM tbl_menu
         WHERE menu_code = #{code}
-
     </delete>
-
-
 </mapper>
