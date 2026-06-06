@@ -17,7 +17,7 @@ public class RentalDTO {
     private int bookNo;
     private LocalDate rentedAt;
     private LocalDate dueDate;
-    private LocalDate returnDate;
+    private LocalDate returnedAt;
     private RentalStatus status;
 
 }

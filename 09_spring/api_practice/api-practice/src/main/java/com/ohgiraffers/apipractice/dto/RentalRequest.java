@@ -15,6 +15,6 @@ public class RentalRequest {
     private Integer memberNo;
 
     @NotNull(message = "도서 번호 필수입니다.")
-    private Integer BookNo;
+    private Integer bookNo;
 
 }
