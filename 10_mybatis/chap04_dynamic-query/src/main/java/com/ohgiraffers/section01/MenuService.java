@@ -53,4 +53,50 @@ public class MenuService {
         }
     }
 
+    public void searchMenuBySupCategory(SearchCriteria searchCriteria) {
+        SqlSession sqlSession = getSqlSession();
+
+        try{
+            DynamicSqlMapper mapper = sqlSession.getMapper(DynamicSqlMapper.class);
+
+            mapper.searchMenuBySupCategory(searchCriteria);
+        } finally {
+            sqlSession.close();
+        }
+    }
+
+    public void searchMenuByRandomMenuCode(List<Integer> randomMenuCodeList) {
+
+        SqlSession sqlSession = getSqlSession();
+
+        try{
+            DynamicSqlMapper mapper = sqlSession.getMapper(DynamicSqlMapper.class);
+
+            Map<String, List<Integer>> criteria = new HashMap<>();
+            //Map의 Key 이름 = foreach의 collection 이름
+            criteria.put("randomMenuCodeList", randomMenuCodeList);
+
+            printMenuList((mapper.searchMenuByRandomMenuCode(criteria)));
+
+        } finally {
+            sqlSession.close();
+        }
+    }
+
+    public void searchMenuByCodeOrSearchAll(SearchCriteria searchCriteria) {
+
+        SqlSession sqlSession = getSqlSession();
+
+        try{
+            DynamicSqlMapper mapper = sqlSession.getMapper(DynamicSqlMapper.class);
+
+            printMenuList(mapper.searchMenuByCodeOrSearchAll(searchCriteria));
+
+        } finally {
+            sqlSession.close();
+        }
+    }
+
+
+
 }
