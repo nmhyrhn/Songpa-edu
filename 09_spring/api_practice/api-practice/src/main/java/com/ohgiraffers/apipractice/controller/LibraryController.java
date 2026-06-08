@@ -1,12 +1,12 @@
 package com.ohgiraffers.apipractice.controller;
 
-import com.ohgiraffers.apipractice.dto.BookDTO;
-import com.ohgiraffers.apipractice.dto.MemberDTO;
-import com.ohgiraffers.apipractice.dto.RentalDTO;
-import com.ohgiraffers.apipractice.dto.ResponseMessage;
+import com.ohgiraffers.apipractice.dto.*;
+import com.ohgiraffers.apipractice.exception.BookAlreadyRentedException;
 import com.ohgiraffers.apipractice.exception.BookNotFoundException;
 import com.ohgiraffers.apipractice.exception.MemberNotFoundException;
+import com.ohgiraffers.apipractice.exception.RentalNotFoundException;
 import com.ohgiraffers.apipractice.type.BookStatus;
+import com.ohgiraffers.apipractice.type.RentalStatus;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -127,7 +127,7 @@ public class LibraryController {
     }
 
     //도서 단건 조회
-    @GetMapping
+    @GetMapping("/books/{bookNo}")
     public ResponseEntity<ResponseMessage> findBookByNo(@PathVariable int bookNo) {
         BookDTO foundBook = books.stream()
                 .filter(book -> book.getBookNo() == bookNo)
@@ -143,6 +143,104 @@ public class LibraryController {
                 results
         );
         return ResponseEntity.status(HttpStatus.OK).body(responseMessage);
+    }
+
+    //도서 등록
+    @PostMapping("/books")
+    public ResponseEntity<Void> registBook(@Valid @RequestBody BookDTO newBook) {
+        int lastBookNo = books.get(books.size() - 1).getBookNo();
+
+        newBook.setBookNo(lastBookNo + 1);
+        newBook.setStatus(BookStatus.AVAILABLE);
+
+        books.add(newBook);
+
+        return ResponseEntity
+                .created(URI.create("/api/v1/library/books/" + newBook.getBookNo()))
+                .build();
+    }
+
+    //도서 대여
+    @PostMapping("/rentals")
+    public ResponseEntity<Void> rentBook(@Valid @RequestBody RentalRequest rentalRequest) {
+        members.stream()
+                .filter(member -> member.getMemberNo() == rentalRequest.getMemberNo())
+                .findFirst()
+                .orElseThrow(() -> new MemberNotFoundException("회원을 찾을 수 없습니다."));
+
+        BookDTO foundBook = books.stream()
+                .filter((book -> book.getBookNo() == rentalRequest.getBookNo()))
+                .findFirst()
+                .orElseThrow(() -> new BookNotFoundException("도서를 찾을 수 없습니다."));
+
+        if(foundBook.getStatus() == BookStatus.RENTED) {
+            throw new BookAlreadyRentedException("이미 대여 중인 도서입니다.");
+        }
+
+        int newRentalNo = rentals.isEmpty()
+                ? 1
+                : rentals.get(rentals.size() - 1).getRentalNo() + 1;
+
+        RentalDTO newRental = new RentalDTO(
+                newRentalNo,
+                rentalRequest.getMemberNo(),
+                rentalRequest.getBookNo(),
+                LocalDate.now(),
+                LocalDate.now().plusDays(14),
+                null,
+                RentalStatus.RENTED
+        );
+
+        rentals.add(newRental);
+        foundBook.setStatus(BookStatus.RENTED);
+
+        return ResponseEntity
+                .created(URI.create("/api/v1/library/rentals/" + newRental.getRentalNo()))
+                .build();
+
+    }
+
+    //대여 단건 조회
+    @GetMapping("/rentals/{rentalNo}")
+    public ResponseEntity<ResponseMessage> findRentalByNo(@PathVariable int rentalNo) {
+        RentalDTO foundRental = rentals.stream()
+                .filter(rental -> rental.getRentalNo() == rentalNo)
+                .findFirst()
+                .orElseThrow(() -> new RentalNotFoundException("대여 정보를 찾을 수 없습니다."));
+
+        Map<String, Object> results = new LinkedHashMap<>();
+        results.put("rental", foundRental);
+
+        ResponseMessage responseMessage = new ResponseMessage(
+                200,
+                "대여 단건 조회 성공",
+                results
+        );
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseMessage);
+    }
+
+    //도서 반납
+    @PatchMapping("/rentals/{rentalNo}/return")
+    public ResponseEntity<Void> returnBook(@PathVariable int rentalNo) {
+        RentalDTO foundRental = rentals.stream()
+                .filter(rental -> rental.getRentalNo() == rentalNo)
+                .findFirst()
+                .orElseThrow(() -> new RentalNotFoundException("대여 정보를 찾을 수 없습니다."));
+
+        if(foundRental.getStatus() == RentalStatus.RETURNED) {
+            throw new IllegalArgumentException("이미 반납된 대여입니다.");
+        }
+        BookDTO foundBook = books.stream()
+                .filter(book -> book.getBookNo() == foundRental.getBookNo())
+                .findFirst()
+                .orElseThrow(() -> new BookNotFoundException("도서를 찾을 수 없습니다."));
+
+        foundRental.setStatus(RentalStatus.RENTED);
+        foundRental.setReturnedAt(LocalDate.now());
+        foundBook.setStatus(BookStatus.AVAILABLE);
+
+        return ResponseEntity.noContent().build();
     }
 
 
