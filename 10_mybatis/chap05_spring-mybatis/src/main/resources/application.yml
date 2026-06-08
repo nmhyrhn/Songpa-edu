@@ -1,0 +1,12 @@
+#driver config
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mvsql://localhost:3306/menudb
+    username: ohgiraffers
+    password: ohgiraffers
+
+
+#mybatis config
+mybatis:
+  mapper-locations: mappers/**/*.xml
