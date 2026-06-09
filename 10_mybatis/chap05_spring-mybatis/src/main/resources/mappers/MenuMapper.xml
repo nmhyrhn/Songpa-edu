@@ -15,12 +15,24 @@
     <select id="findAllMenu" resultMap="menuResultMap">
         select
         menu_code
-            , menu_name
-            , menu_price
-            , category_code
-            , orderable_status
+        , menu_name
+        , menu_price
+        , category_code
+        , orderable_status
         from tbl_menu
         where orderable_status = 'Y'
         order by menu_code
     </select>
+
+    <select id="findMenuByCode" parameterType="_int" resultMap="menuResultMap">
+        select
+        menu_code
+        , menu_name
+        , menu_price
+        , category_code
+        , orderable_status
+        from tbl_menu
+        where menu_code = #{menuCode} and orderable_status = 'Y'
+    </select>
+
 </mapper>
