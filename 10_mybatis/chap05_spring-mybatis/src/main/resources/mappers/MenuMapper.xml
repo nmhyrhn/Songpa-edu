@@ -12,13 +12,19 @@
         <result property="orderableStatus" column="orderable_status"/>
     </resultMap>
 
+    <resultMap id="categoryResultMap" type="com.ohgiraffers.springmybatis.menu.model.dto.CategoryDTO">
+        <id property="code" column="category_code"/>
+        <result property="name" column="category_name"/>
+        <result property="refCategoryCode" column="ref_category_code"/>
+    </resultMap>
+
     <select id="findAllMenu" resultMap="menuResultMap">
         select
-        menu_code
-        , menu_name
-        , menu_price
-        , category_code
-        , orderable_status
+            menu_code
+            , menu_name
+            , menu_price
+            , category_code
+            , orderable_status
         from tbl_menu
         where orderable_status = 'Y'
         order by menu_code
@@ -26,13 +32,47 @@
 
     <select id="findMenuByCode" parameterType="_int" resultMap="menuResultMap">
         select
-        menu_code
-        , menu_name
-        , menu_price
-        , category_code
-        , orderable_status
+            menu_code
+            , menu_name
+            , menu_price
+            , category_code
+            , orderable_status
         from tbl_menu
         where menu_code = #{menuCode} and orderable_status = 'Y'
     </select>
+
+    <select id="findAllCategory" resultMap="categoryResultMap">
+        select
+            category_code
+            , category_name
+            , ref_category_code
+        from tbl_category
+    </select>
+
+    <!-- useGeneratedKeys="true": DB가 자동 생성한 key 값을 받아온다
+        keyProperty="code": 받아온 key 값을 MenuDTO의 code 프로퍼티에 넣는다
+     -->
+    <insert id="registMenu" parameterType="com.ohgiraffers.springmybatis.menu.model.dto.MenuDTO"
+        useGeneratedKeys="true" keyProperty="code">
+        insert into tbl_menu
+        (menu_name, menu_price, category_code, orderable_status)
+        values
+        (#{ name }, #{ price }, #{ categoryCode }, #{orderableStatus })
+    </insert>
+
+    <update id="modifyMenu" parameterType="com.ohgiraffers.springmybatis.menu.model.dto.MenuDTO">
+        update tbl_menu
+            set menu_name = #{ name }
+            , menu_price = #{ price }
+            , category_code = #{ categoryCode }
+            , orderable_status = #{ orderableStatus }
+        where menu_code = #{ code }
+    </update>
+
+    <update id="deleteMenu" parameterType="_int">
+        update tbl_menu
+            set orderable_status = 'N'
+        where menu_code = #{ menuCode }
+    </update>
 
 </mapper>
