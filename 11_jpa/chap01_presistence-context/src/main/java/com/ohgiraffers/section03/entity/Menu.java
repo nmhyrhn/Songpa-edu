@@ -1,8 +1,8 @@
-package com.ohgiraffers.section02.crud;
+package com.ohgiraffers.section03.entity;
 
 import jakarta.persistence.*;
 
-@Entity(name="Section02Menu")
+@Entity(name="Section03Menu")
 @Table(name="tbl_menu")
 public class Menu {
 
@@ -22,7 +22,8 @@ public class Menu {
     protected Menu() {
     }
 
-    public Menu(String menuName, int menuPrice, int categoryCode, String orderableStatus) {
+    public Menu(int menuCode, String menuName, int menuPrice, int categoryCode, String orderableStatus) {
+        this.menuCode = menuCode;
         this.menuName = menuName;
         this.menuPrice = menuPrice;
         this.categoryCode = categoryCode;

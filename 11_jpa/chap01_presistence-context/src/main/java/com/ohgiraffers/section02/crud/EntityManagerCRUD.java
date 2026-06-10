@@ -2,6 +2,7 @@ package com.ohgiraffers.section02.crud;
 
 import com.ohgiraffers.section01.entitymanager.EntityManagerGenerator;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 
 public class EntityManagerCRUD {
 
@@ -13,5 +14,58 @@ public class EntityManagerCRUD {
         // find(엔티티타입, PK)
         return entityManager.find(Menu.class, menuCode);
     }
+
+    /* 새로운 메뉴 저장 */
+    public Long saveAndReturnAllCount(Menu newMenu){
+        entityManager = EntityManagerGenerator.getInstance();
+
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+
+        entityManager.persist(newMenu);
+
+        entityTransaction.commit();
+
+        return getCount(entityManager);
+    }
+
+    /* 메뉴 개수 조회하는 기능 */
+    private Long getCount(EntityManager entityManager){
+        /* JPQL 문법 -> 나중에 별도의 챕터에서 다룰 예정 */
+        return entityManager.createQuery("SELECT COUNT(*) FROM Section02Menu", Long.class).getSingleResult();
+    }
+
+    /* 메뉴 이름 수정하기 */
+    public Menu modifyMenuName(int menuCode, String menuName){
+        entityManager = EntityManagerGenerator.getInstance();
+
+        Menu foundMenu = entityManager.find(Menu.class, menuCode);
+
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+
+        foundMenu.setMenuName(menuName);
+
+        transaction.commit();
+
+        return foundMenu;
+    }
+
+    /* 메뉴 삭제하기 */
+    public Long removeAndReturnAllCount(int menuCode){
+        entityManager = EntityManagerGenerator.getInstance();
+        Menu foundMenu = entityManager.find(Menu.class, menuCode);
+
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+
+        entityManager.remove(foundMenu);
+
+        transaction.commit();
+
+        return getCount(entityManager);
+
+    }
+
 
 }
