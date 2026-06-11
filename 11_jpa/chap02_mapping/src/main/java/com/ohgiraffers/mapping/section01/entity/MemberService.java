@@ -1,4 +1,4 @@
-package com.ohgiraffers.mapping.sectopn01.entity;
+package com.ohgiraffers.mapping.section01.entity;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +28,12 @@ public class MemberService {
 
         memberRepository.save(member);
 
+    }
+
+    @Transactional
+    public String registMemberAndFindName(MemberRegistDTO newMember) {
+        registMember((newMember));
+        return memberRepository.findNameById(newMember.getMemberId());
     }
 
 }

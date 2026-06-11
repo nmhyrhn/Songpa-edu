@@ -1,8 +1,5 @@
 package com.ohgiraffers.mapping.section01.entity;
 
-import com.ohgiraffers.mapping.sectopn01.entity.MemberRegistDTO;
-import com.ohgiraffers.mapping.sectopn01.entity.MemberRole;
-import com.ohgiraffers.mapping.sectopn01.entity.MemberService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -13,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
 import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 public class MemberServiceTests {
@@ -45,7 +44,7 @@ public class MemberServiceTests {
         );
     }
 
-    @DisplayName("테이블생성 테스트")
+    @DisplayName("테이블 생성 테스트")
     @ParameterizedTest
     @MethodSource("getMember")
     void testCreateTable(
@@ -70,4 +69,30 @@ public class MemberServiceTests {
                 () -> memberService.registMember(newMember)
         );
     }
+
+    @DisplayName("프로퍼티 접근 테스트")
+    @ParameterizedTest
+    @MethodSource("getMember")
+    void testAccessProperty(
+            String memberId, String memberPwd,
+            String memberName, String phone, String address,
+            LocalDateTime enrollDate, MemberRole memberRole, String status
+    ) {
+        //given
+        MemberRegistDTO newMember = new MemberRegistDTO(
+                memberId,
+                memberPwd,
+                memberName,
+                phone,
+                address,
+                enrollDate,
+                memberRole,
+                status
+        );
+        //when
+        String registedName = memberService.registMemberAndFindName(newMember);
+        //then
+        assertEquals(memberName + " 님", registedName);
+    }
+
 }

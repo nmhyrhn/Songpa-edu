@@ -1,4 +1,4 @@
-package com.ohgiraffers.mapping.sectopn01.entity;
+package com.ohgiraffers.mapping.section01.entity;
 
 import jakarta.persistence.*;
 
@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 
 @Entity(name = "entityMember")
 @Table(name = "tbl_member")
+@Access(AccessType.FIELD)
 public class Member {
 
     @Id
@@ -13,6 +14,7 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int memberNo;
 
+    @Access(AccessType.FIELD)
     @Column(
             name = "member_id", unique = true,
             nullable = false, columnDefinition = "varchar(10)"
@@ -22,10 +24,11 @@ public class Member {
     @Column(name = "member_pwd", nullable = false)
     private String memberPwd;
 
+    @Access(AccessType.PROPERTY)
     @Column(name = "member_name")
     private String memberName;
 
-    @Transient
+//    @Transient
     @Column(name = "phone")
     private String phone;
 
@@ -57,5 +60,14 @@ public class Member {
         this.enrollDate = enrollDate;
         this.memberRole = memberRole;
         this.status = status;
+    }
+
+    public String getMemberName() {
+        System.out.println("getMemberName 메소드를 통한 Access 확인");
+        return memberName + " 님";
+    }
+
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
     }
 }
