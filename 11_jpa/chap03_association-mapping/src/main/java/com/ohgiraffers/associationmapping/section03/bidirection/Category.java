@@ -1,11 +1,14 @@
-package com.ohgiraffers.associationmapping.section02.onetomany;
+package com.ohgiraffers.associationmapping.section03.bidirection;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 import java.util.List;
 
-@Entity(name="category_and_menu")
-@Table(name="tbl_category")
+@Entity(name = "bidirection_category")
+@Table(name = "tbl_category")
 public class Category {
 
     @Id
@@ -13,20 +16,19 @@ public class Category {
     private String categoryName;
     private Integer refCategoryCode;
 
-    /*즉시 로딩 or 지연 로딩*/
-    /*@OneToMany: 기본적으로 지연 로딩, 필요에따라 즉시 로딩으로 바꿀 수 있다(EAGER)*/
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "categoryCode") //FK 컬럼을 기재
+    /* 양방향 연관관계를 맺을 경우 FK를 가진 쪽이 진짜,
+    * FK를 가지지 않은 쪽이 가짜 연관관계가 된다.
+    * 가짜 연관 관계의 경우 mappedBy 속성을 설정하고 진짜 연관관계의 필드명을 준다. */
+    @OneToMany(mappedBy = "category")
     private List<Menu> menuList;
 
     public Category() {
     }
 
-    public Category(int categoryCode, String categoryName, Integer refCategoryCode, List<Menu> menuList) {
+    public Category(int categoryCode, String categoryName, Integer refCategoryCode) {
         this.categoryCode = categoryCode;
         this.categoryName = categoryName;
         this.refCategoryCode = refCategoryCode;
-        this.menuList = menuList;
     }
 
     public int getCategoryCode() {
@@ -67,7 +69,6 @@ public class Category {
                 "categoryCode=" + categoryCode +
                 ", categoryName='" + categoryName + '\'' +
                 ", refCategoryCode=" + refCategoryCode +
-                ", menuList=" + menuList +
                 '}';
     }
 }

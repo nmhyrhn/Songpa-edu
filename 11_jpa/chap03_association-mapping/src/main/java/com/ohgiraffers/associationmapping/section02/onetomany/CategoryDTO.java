@@ -1,28 +1,19 @@
 package com.ohgiraffers.associationmapping.section02.onetomany;
 
-import jakarta.persistence.*;
 
 import java.util.List;
 
-@Entity(name="category_and_menu")
-@Table(name="tbl_category")
-public class Category {
+public class CategoryDTO {
 
-    @Id
     private int categoryCode;
     private String categoryName;
     private Integer refCategoryCode;
+    private List<MenuDTO> menuList;
 
-    /*즉시 로딩 or 지연 로딩*/
-    /*@OneToMany: 기본적으로 지연 로딩, 필요에따라 즉시 로딩으로 바꿀 수 있다(EAGER)*/
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "categoryCode") //FK 컬럼을 기재
-    private List<Menu> menuList;
-
-    public Category() {
+    public CategoryDTO() {
     }
 
-    public Category(int categoryCode, String categoryName, Integer refCategoryCode, List<Menu> menuList) {
+    public CategoryDTO(int categoryCode, String categoryName, Integer refCategoryCode, List<MenuDTO> menuList) {
         this.categoryCode = categoryCode;
         this.categoryName = categoryName;
         this.refCategoryCode = refCategoryCode;
@@ -53,17 +44,17 @@ public class Category {
         this.refCategoryCode = refCategoryCode;
     }
 
-    public List<Menu> getMenuList() {
+    public List<MenuDTO> getMenuList() {
         return menuList;
     }
 
-    public void setMenuList(List<Menu> menuList) {
+    public void setMenuList(List<MenuDTO> menuList) {
         this.menuList = menuList;
     }
 
     @Override
     public String toString() {
-        return "Category{" +
+        return "CategoryDTO{" +
                 "categoryCode=" + categoryCode +
                 ", categoryName='" + categoryName + '\'' +
                 ", refCategoryCode=" + refCategoryCode +
