@@ -13,3 +13,7 @@ spring:
       properties:
         hibernate:
           format-sql: true
+jwt:
+  secret: nlga6fg6PfWZMIU9Vow9QYwuCSyLYsxhXQ4wSfx+q+S9b6OxM53SReYoGpHpxKZakmmNHo9EnCVZgumo+K+C5Q==
+  expiration: 1800000 #30분(access token)
+  refresh-expiration: 604800000 #7일(refresh token)
