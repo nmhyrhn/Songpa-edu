@@ -54,7 +54,7 @@ public class AuthService {
                 .refreshToken(refreshToken).build();
     }
 
-    public TokenResponse refreshToken(String refreshToken) {
+    public TokenResponse refreshToken(String providedRefreshToken) {
 
         // 리프레시 토큰 유효성 검사
         jwtTokenProvider.validationToken(providedRefreshToken);
