@@ -48,7 +48,7 @@ if __name__ == "__main__":
     print(f"-> 분석할 문장: '{sentence_to_test}'")
     print("-> 실행중 ...")
 
-    result = chain.invoke({"sentence", sentence_to_test})
+    result = chain.invoke({"sentence": sentence_to_test})
     print("====파싱된 결과====")
     # print(result)
     print(f"타입: {type(result)}")
