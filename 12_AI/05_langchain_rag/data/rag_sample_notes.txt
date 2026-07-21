@@ -1,0 +1,13 @@
+NumPy의 shape는 배열의 모양을 나타낸다. 2차원 배열에서는 보통 (행, 열)로 읽는다.
+NumPy의 dtype은 배열 안에 저장된 값의 자료형을 의미한다. 정수, 실수, 문자열 등이 dtype으로 표현된다.
+Broadcasting은 크기가 다른 배열끼리 계산할 수 있도록 NumPy가 모양을 자동으로 맞추는 기능이다.
+Vector는 숫자를 한 줄로 묶은 것이다. GPT에서는 token을 embedding vector로 바꿔 계산한다.
+Dot product는 같은 위치의 숫자끼리 곱한 뒤 모두 더하는 계산이다. 벡터 사이 관련도를 계산할 때 사용할 수 있다.
+Cosine similarity는 두 벡터의 방향이 얼마나 비슷한지 계산한다. 값이 1에 가까울수록 비슷하다.
+RAG는 Retrieval Augmented Generation의 약자이다. 외부 문서를 검색한 뒤 그 결과를 모델 답변에 넣는 방식이다.
+Loader는 파일, 웹 페이지, 데이터베이스 같은 외부 자료를 읽어오는 역할을 한다.
+TextSplitter는 긴 문서를 작은 chunk로 나누는 역할을 한다. chunk가 너무 길면 검색이 흐려지고, 너무 짧으면 문맥이 부족할 수 있다.
+Retrieval은 질문과 관련 있는 문서 조각을 찾는 과정이다. 보통 embedding과 vector similarity를 사용한다.
+VectorStore는 문서 chunk의 embedding을 저장하고 빠르게 검색하는 저장소이다.
+Attention은 문장 안 token들이 서로 얼마나 관련 있는지 계산하는 구조이다.
+Chatbot memory는 이전 대화를 기억해서 다음 답변에 반영하는 기능이다.
