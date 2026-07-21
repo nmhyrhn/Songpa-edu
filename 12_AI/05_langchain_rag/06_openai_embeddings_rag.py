@@ -4,6 +4,9 @@ import argparse
 import math
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+load_dotenv()
+
 
 BASE_DIR = Path(__file__).resolve().parent
 DEFAULT_DOCUMENT = BASE_DIR / "data" / "rag_sample_notes.txt"
@@ -53,6 +56,9 @@ def create_embeddings(texts: list[str]) -> list[list[float]]:
 def retrieve(question: str, chunks: list[str], top_k: int) -> list[tuple[float, str]]:
 
     """질문과 가장 가까운 chunk를 찾는다."""
+    print("🎉", question)
+    print("-" * 80)
+    print("🥝", chunks)
     embeddings = create_embeddings([question] + chunks)
     print("*" * 90)
     print(embeddings)
@@ -66,3 +72,28 @@ def retrieve(question: str, chunks: list[str], top_k: int) -> list[tuple[float, 
     ]
 
     return sorted(scored_chunks, reverse=True)[:top_k]
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="OpenAI embedding RAG 실습")
+    parser.add_argument("--run", action="store_true", help="실제 OpenAI API를 호출한다.")
+    parser.add_argument("--document", default=str(DEFAULT_DOCUMENT), help="검색할 문서")
+    parser.add_argument("--question", default=DEFAULT_QUESTION, help="검색 질문")
+    parser.add_argument("--top-k", type=int, default=2, help="가져올 chunk개수")
+    args = parser.parse_args()
+
+    document_path = Path(args.document)
+    if not document_path.exists():
+        raise SystemExit(f"문서 파일이 없습니다: {document_path}")
+    
+    if not os.getenv("OPENAI_API_KEY"):
+        raise SystemExit("OPENAI_API_KEY가 없습니다. 환경변수를 설정을 다시한번 확인해보세요.")
+    
+    chunks = split_text(document_path.read_text(encoding="utf-8"))
+    for rank, (score, chunk) in enumerate(retrieve(args.question, chunks, args.top_k), start=1):
+        print(f"[{rank}] score={score:.4f}")
+        print(chunk)
+        print()
+
+if __name__ == "__main__":
+    main()
