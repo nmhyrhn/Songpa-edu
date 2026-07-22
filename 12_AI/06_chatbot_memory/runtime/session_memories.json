@@ -1,0 +1,40 @@
+{
+  "student-a": {
+    "messages": [
+      {
+        "role": "user",
+        "content": "내 이름은 민수야",
+        "time": "08:25:15"
+      },
+      {
+        "role": "assistant",
+        "content": "기억했습니다.",
+        "time": "08:25:15"
+      }
+    ],
+    "profile": {
+      "name": "민수"
+    },
+    "summary": "",
+    "max_recent_messages": 6
+  },
+  "student-b": {
+    "messages": [
+      {
+        "role": "user",
+        "content": "내 이름은 수진이야",
+        "time": "08:25:15"
+      },
+      {
+        "role": "assistant",
+        "content": "기억했습니다.",
+        "time": "08:25:15"
+      }
+    ],
+    "profile": {
+      "name": "수진"
+    },
+    "summary": "",
+    "max_recent_messages": 6
+  }
+}
