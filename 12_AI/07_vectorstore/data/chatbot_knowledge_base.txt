@@ -1,0 +1,15 @@
+RAG는 Retrieval Augmented Generation의 약자이다. 외부 문서를 검색한 뒤 그 검색 결과를 모델 답변에 넣는 방식이다.
+Loader는 파일, 웹 페이지, 데이터베이스 같은 자료를 읽어오는 역할이다.
+TextSplitter는 긴 문서를 작은 chunk로 나누는 역할이다. chunk는 검색에 사용할 문서 조각이다.
+Embedding은 텍스트를 숫자 벡터로 바꾸는 과정이다. 비슷한 의미의 텍스트는 비슷한 벡터가 되도록 만든다.
+VectorStore는 embedding vector와 원문 텍스트를 저장하고 비슷한 내용을 빠르게 찾는 저장소이다.
+Retrieval은 질문과 관련 있는 문서 조각을 찾는 과정이다.
+Chatbot memory는 이전 대화 내용을 저장하고 다음 답변에 반영하는 기능이다.
+Short-term memory는 최근 몇 개의 대화 메시지를 기억하는 방식이다.
+Summary memory는 긴 대화를 짧게 요약해서 기억하는 방식이다.
+Semantic memory는 오래된 대화나 사용자 정보를 Embedding으로 저장한 뒤 필요할 때 검색하는 선택적 Memory 방식이다.
+Attention은 문장 안 token 사이의 관련도를 계산하는 구조이다.
+Fine-tuning은 예시 데이터를 추가로 학습시켜 모델의 말투, 형식, 판단 패턴을 맞추는 방법이다.
+Prompt Engineering은 모델에게 역할, 목표, 제약조건, 출력 형식을 명확히 지시하는 기술이다.
+Day9 실습 과제 제출 기한은 금요일 오후 6시이다.
+Day9 과제는 실행 화면과 검색 결과의 source, score를 함께 제출해야 한다.
