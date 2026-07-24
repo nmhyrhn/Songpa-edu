@@ -6,11 +6,17 @@ from dotenv import load_dotenv
 from langchain_core.documents import Document
 from langchain_core.vectorstores import InMemoryVectorStore
 from langchain_openai import OpenAIEmbeddings
+from langchain_chroma import Chroma
 
 
 BASE_DIR = Path(__file__).resolve().parent
 DATA_PATH = BASE_DIR / "data" / "chatbot_knowledge_base.txt"
 EMBEDDING_MODEL = os.getenv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small")
+
+CHROMA_PERSIST_DIRECTORY = BASE_DIR / "data" / "chroma_class_db"
+CHROMA_COLLECTION_NAME = "class_knowledge"
+
+
 
 
 def load_environment() -> None:
@@ -80,6 +86,32 @@ def build_inmemory_store(
     ids = store.add_documents(docs, ids=[str(doc.id) for doc in docs])
     return store, ids
 
+
+def open_chroma_store(
+    rebuild_index: bool = False,
+    documents: list[Document] | None = None,
+) -> tuple[Chroma, bool, int]:
+    docs = documents or load_documents()
+    store = Chroma(
+        collection_name=CHROMA_COLLECTION_NAME,
+        embedding_function=create_embeddings(),
+        persist_directory=str(CHROMA_PERSIST_DIRECTORY),
+    )
+
+    if rebuild_index:
+        store.reset_collection()
+
+    existing_ids = store.get()["ids"]
+    indexed_now = not existing_ids
+
+    if indexed_now:
+        store.add_documents(
+            docs,
+            ids=[str(document.id) for document in docs],
+        )
+
+    document_count = len(store.get()["ids"])
+    return store, indexed_now, document_count
 
 def format_results(results: list[tuple[Document, float]]) -> str:
     """InMemoryVectorStore 검색 결과를 비교하기 쉽게 출력합니다."""
