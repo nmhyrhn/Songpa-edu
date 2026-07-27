@@ -35,3 +35,4 @@ async def list_users(response: Response) -> list[dict]:
 @app.get("/users/{user_id}", response_model=UserResponse, tags=["users"])
 async def get_user(user_id:int) -> dict:
     return find_user_or_404(user_id)
+
