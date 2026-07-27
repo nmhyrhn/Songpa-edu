@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: spring_app
+  servlet:
+    multipart:
+      max-file-size: 1MB
+      max-request-size: 2MB
+server:
+  port: 8080
+
+fastapi:
+  url: "http://localhost:8002"
+
+logging:
+  level:
+    org.springframework.web.client.RestClient: debug
