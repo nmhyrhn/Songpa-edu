@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>FastAPI File Bridge</title>
+    <style>
+        body { max-width: 760px; margin: 40px auto; padding: 0 20px; font-family: sans-serif; }
+        form { display: grid; gap: 12px; padding: 20px; border: 1px solid #bbb; }
+        input, button { padding: 10px; font: inherit; }
+        li { margin: 12px 0; }
+        .error { color: #b00020; }
+    </style>
+</head>
+<body>
+<h1>Spring과 FastAPI 파일 연동</h1>
+<form id="upload-form">
+    <input id="file" name="file" type="file" accept=".txt,.pdf" required>
+    <input id="description" name="description" placeholder="파일 설명" required>
+    <button type="submit">업로드</button>
+</form>
+<p id="status"></p>
+<h2>저장된 파일</h2>
+<ul id="files"></ul>
+
+<script>
+    const statusNode = document.querySelector("#status");
+    const filesNode = document.querySelector("#files");
+
+    async function loadFiles() {
+        const response = await fetch("/api/files");
+        if (!response.ok) throw new Error(`목록 실패: ${response.status}`);
+        const files = await response.json();
+        filesNode.replaceChildren(...files.map(file => {
+            const item = document.createElement("li");
+            item.textContent = `${file.originalName} (${file.size} bytes) `;
+
+            const download = document.createElement("a");
+            download.href = `/api/files/${file.id}/download`;
+            download.textContent = "다운로드";
+            item.append(download, " ");
+
+            const remove = document.createElement("button");
+            remove.textContent = "삭제";
+            remove.addEventListener("click", async () => {
+                const result = await fetch(`/api/files/${file.id}`, { method: "DELETE" });
+                if (!result.ok) throw new Error(`삭제 실패: ${result.status}`);
+                await loadFiles();
+            });
+            item.append(remove);
+            return item;
+        }));
+    }
+
+    document.querySelector("#upload-form").addEventListener("submit", async event => {
+        event.preventDefault();
+        statusNode.className = "";
+        statusNode.textContent = "업로드 중...";
+        try {
+            const response = await fetch("/api/files", {
+                method: "POST",
+                body: new FormData(event.currentTarget)
+            });
+            if (!response.ok) throw new Error(`업로드 실패: ${response.status}`);
+            event.currentTarget.reset();
+            statusNode.textContent = "업로드 완료";
+            await loadFiles();
+        } catch (error) {
+            statusNode.className = "error";
+            statusNode.textContent = error.message;
+        }
+    });
+
+    loadFiles().catch(error => {
+        statusNode.className = "error";
+        statusNode.textContent = error.message;
+    });
+</script>
+</body>
+</html>
