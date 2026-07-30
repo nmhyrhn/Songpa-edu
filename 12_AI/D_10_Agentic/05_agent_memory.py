@@ -194,5 +194,41 @@ def main() -> None:
     profile_turn = invoke_turn(agent, same_thread, PROFILE_MESSAGE)
     verify_no_tool("1. 같은 Thread에 여행 조건 저장", profile_turn)
 
+    first_recommendation = invoke_turn(
+        agent,
+        same_thread,
+        RECOMMENDATION_QUESTION
+    )
+    verify_recommendation_call(
+        "2. 이전 대화로 Tool 인자 생성",
+        first_recommendation,
+        expected_budget=20000,
+    )
+
+    update_turn = invoke_turn(agent, same_thread, BUDGET_UPDATE)
+    verify_no_tool("3. 같은 Thread에서 예산 수정", update_turn)
+
+    update_recommendation = invoke_turn(
+        agent,
+        same_thread,
+        RECOMMENDATION_QUESTION
+    )
+    verify_recommendation_call(
+        "4. 수정된 예산으로 Tool 인자 생성",
+        update_recommendation,
+        expected_budget=150000
+    )
+
+    isolated_recommendation = invoke_turn(
+        agent,
+        different_thread,
+        RECOMMENDATION_QUESTION
+    )
+
+    verify_no_tool("5. 다른 Thread 격리", isolated_recommendation)
+
+    print_checkpoint_evidence(agent, "student-1", same_thread)
+    print_checkpoint_evidence(agent, "student-2", different_thread)
+
 if __name__ == "__main__":
     main()
